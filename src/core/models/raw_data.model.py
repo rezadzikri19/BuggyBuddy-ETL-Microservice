@@ -1,3 +1,5 @@
+from typing import List
+
 class RawBugReport:
   def __init__(self,
                bug_id: int,
@@ -10,7 +12,7 @@ class RawBugReport:
                description: str,
                resolution: str,
                severity: str,
-               duplicates):
+               duplicates: List[int]):
     self.bug_id = bug_id,
     self.report_type = report_type,
     self.status = status,

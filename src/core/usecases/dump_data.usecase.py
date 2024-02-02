@@ -13,6 +13,10 @@ class DumpDataUsecaseInterface(ABC):
   def format_data(self):
     pass
   
+  @abstractmethod
+  def validate_data(self):
+    pass
+  
 class DumpDataRawUsecase(DumpDataUsecaseInterface):
   def __init__(self) -> None:
     pass
@@ -23,14 +27,7 @@ class DumpDataRawUsecase(DumpDataUsecaseInterface):
   def format_data(self):
     pass
   
-class DumpDataTrainUsecase(DumpDataUsecaseInterface):
-  def __init__(self) -> None:
-    pass
-  
-  def dump_data(self):
-    pass
-  
-  def format_data(self):
+  def validate_data(self):
     pass
   
 class DumpDataProcessedUsecase(DumpDataUsecaseInterface):
@@ -41,4 +38,7 @@ class DumpDataProcessedUsecase(DumpDataUsecaseInterface):
     pass
   
   def format_data(self):
+    pass
+  
+  def validate_data(self):
     pass

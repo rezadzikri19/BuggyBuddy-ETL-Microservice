@@ -27,6 +27,3 @@ class TransformDataUsecase:
   
   def sentence_embedding(self):
     pass
-  
-  def create_sentence_pairs(self):
-    pass
