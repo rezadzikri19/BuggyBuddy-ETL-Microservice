@@ -1,8 +1,7 @@
-# dump raw data
-# dump processed data
+from core.ports.data_loader_port import DataLoaderPort
 
-class DumpData():
-  def __init__(self, data_loader_driver) -> None:
+class DumpDataUsecase():
+  def __init__(self, data_loader_driver: DataLoaderPort) -> None:
     self.data_loader_driver = data_loader_driver
     
   def dump_raw_data(self, data):

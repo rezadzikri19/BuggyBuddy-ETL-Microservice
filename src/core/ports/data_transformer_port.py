@@ -1,8 +1,13 @@
 from abc import ABC, abstractmethod
+from typing import List
 
-class DataTransformer(ABC):
+class DataTransformerPort(ABC):
   @abstractmethod
   def impute(self, data: str, mode: str, value):
+    pass
+  
+  @abstractmethod
+  def drop_features(self, data, features_to_drop: List[str]):
     pass
   
   @abstractmethod
@@ -19,4 +24,8 @@ class DataTransformer(ABC):
   
   @abstractmethod
   def sent_embedding(self, data):
+    pass
+  
+  @abstractmethod
+  def get_duplicates_to(self, data):
     pass

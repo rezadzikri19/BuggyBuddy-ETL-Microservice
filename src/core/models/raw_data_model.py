@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import List
 
 @dataclass
-class RawBugReport:
+class RawDataModel:
     bug_id: int
     report_type: str
     status: str

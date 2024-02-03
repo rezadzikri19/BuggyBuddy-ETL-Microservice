@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-class DataExtractorPort(ABC):
+class DataLoaderPort(ABC):
   @abstractmethod
   def dump_raw_data(self, data):
     pass

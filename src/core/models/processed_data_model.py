@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import List
 
 @dataclass
-class ProcessedData:
+class ProcessedDataModel:
   text: str
   text_embedded: List[int]
   duplicates_to = int
