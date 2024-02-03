@@ -9,18 +9,18 @@ class DataPipelineUsecase():
       data_extract_usecase: ExtractDataRawUsecase,
       data_transform_usecase: TransformDataUsecase,
       data_dump_usecase: DumpDataUsecase,
-      logger_driver: LoggerPort) -> None:
+      logger: LoggerPort) -> None:
     self.data_extract_usecase = data_extract_usecase
     self.data_transform_usecase = data_transform_usecase
     self.data_dump_usecase = data_dump_usecase
-    self.logger_driver = logger_driver
+    self.logger = logger
   
   def extract_data_pipeline(self):
     result = self.data_extract_usecase.fetch_data()
     result = self.data_extract_usecase.format_data(result)
 
     self.data_dump_usecase.dump_raw_data(result)
-    self.logger_driver.log_info('ETL_PIPELINE [EXTRACT] - SUCCESS')
+    self.logger.log_info('ETL_PIPELINE [EXTRACT] - SUCCESS')
     
     return result
   
@@ -34,18 +34,18 @@ class DataPipelineUsecase():
     result = self.data_transform_usecase.get_duplicates_to(result)
     result = self.data_transform_usecase.drop_features(data, features_to_drop=['duplicates'])
 
-    self.logger_driver.log_info('ETL_PIPELINE [TRANSFORM] - SUCCESS')
+    self.logger.log_info('ETL_PIPELINE [TRANSFORM] - SUCCESS')
     
     return result
   
   def load_data_pipeline(self, data) -> None:
     self.data_dump_usecase.dump_processed_data(data)
     
-    self.logger_driver.log_info('ETL_PIPELINE [LOAD] - SUCCESS')
+    self.logger.log_info('ETL_PIPELINE [LOAD] - SUCCESS')
   
   def run_pipeline(self) -> None:
     result = self.extract_data_pipeline()
     result = self.transform_data_pipeline(result)
     self.load_data_pipeline(result)
     
-    self.logger_driver.log_info('ETL_PIPELINE [ALL] - SUCCESS')
+    self.logger.log_info('ETL_PIPELINE [ALL] - SUCCESS')

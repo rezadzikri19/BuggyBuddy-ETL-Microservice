@@ -9,17 +9,17 @@ from core.models.raw_data_model import RawDataModel
 import pandas as pd
 from configs import DATA_SOURCE_BASEURL
 
-from core.types.common_types import ArrayLike, MatrixLike
+from core.types.common_types import MatrixLike
 
 class DataExtractorDriver(DataExtractorPort):
   def __init__(self) -> None:
     pass
   
-  def fetch_data(url: str, params=None):
+  def fetch_data(self, url: str, params=None):
     response = requests.get(url, params=params)
     return response.json()
       
-  def urls_builder(base_url: str, n_fetch: int, limit: int, **kwargs) -> str:
+  def urls_builder(self, base_url: str, n_fetch: int, limit: int, **kwargs) -> str:
     urls = []
     for i in range(n_fetch):
       param = {'offset': i * limit, 'limit': limit, **kwargs}

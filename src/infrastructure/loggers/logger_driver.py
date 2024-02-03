@@ -22,10 +22,15 @@ class LoggerDriver(LoggerPort):
     log_path = os.path.join(curr_dir, os.pardir, os.pardir, os.pardir, 'logs', log_file)
     self.log_path = log_path
     
-    file_handler = logging.FileHandler(log_path, mode='a')
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    
+    file_handler = logging.FileHandler(log_path, mode='a')
     file_handler.setFormatter(formatter)
     self.logger.addHandler(file_handler)
+    
+    console_handler = logging.StreamHandler()
+    console_handler.setFormatter(formatter)
+    self.logger.addHandler(console_handler)
 
   def log_info(self, message: str) -> None:
     self.logger.info(message)
@@ -33,6 +38,6 @@ class LoggerDriver(LoggerPort):
   def log_error(self, message: str) -> None:
     self.logger.error(message)
     
-  def close_logger(self):
+  def close_logger(self) -> None:
     for handler in self.logger.handlers:
       handler.close()
