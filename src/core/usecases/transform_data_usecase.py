@@ -17,8 +17,8 @@ class TransformDataUsecase:
   
   def run_validate_transformer(
       self, data,
-      schema_input: dict[str, Any],
-      schema_output: dict[str, Any],
+      schema_input: Dict[str, Any],
+      schema_output: Dict[str, Any],
       transformer: Callable[..., None],
       transformer_args: Dict[str, Any]):
     self.data_validation_driver.validate(data, schema_input)
