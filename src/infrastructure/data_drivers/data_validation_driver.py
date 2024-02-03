@@ -1,7 +1,5 @@
-from typing import Dict, Any
+from typing import Dict
 from collections import Counter
-
-import numpy as np
 
 from core.ports.data_validation_port import DataValidatorPort
 from core.types.common_types import MatrixLike

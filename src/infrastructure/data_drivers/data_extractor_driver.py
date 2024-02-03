@@ -1,5 +1,4 @@
 import requests
-import json
 import concurrent.futures
 from urllib.parse import urlencode
 from typing import Any, Dict, Optional
@@ -8,7 +7,7 @@ from core.ports.data_extractor_port import DataExtractorPort
 from core.models.raw_data_model import RawDataModel
 
 import pandas as pd
-import numpy as np
+from configs import DATA_SOURCE_BASEURL
 
 from core.types.common_types import ArrayLike, MatrixLike
 
@@ -41,11 +40,10 @@ class DataExtractorDriver(DataExtractorPort):
     return urls
   
   def get_data_from_source(self, fields: Dict[str, Any], excludes: Optional[ArrayLike] = None) -> MatrixLike:
-    base_url = 'https://bugzilla.mozilla.org/rest/bug'
     n_fetch = 50
     limit = 5000
 
-    urls = self.urls_builder(base_url, n_fetch, limit, **fields)
+    urls = self.urls_builder(DATA_SOURCE_BASEURL, n_fetch, limit, **fields)
     response_data = []
 
     max_workers = 50
