@@ -11,7 +11,6 @@ class DataPipelineUsecase():
     self.data_extract_usecase = data_extract_usecase
     self.data_transform_usecase = data_transform_usecase
     self.data_dump_usecase = data_dump_usecase
-    pass
   
   def extract_data_pipeline(self):
     result = self.data_extract_usecase.fetch_data()
@@ -22,13 +21,15 @@ class DataPipelineUsecase():
     return result
   
   def transform_data_pipeline(self, data):
+    result = self.data_transform_usecase.drop_features(data, features_to_drop=['status', 'priority', 'resolution', 'severity', 'component', 'product', 'report_type'])
     result = self.data_transform_usecase.impute_missing_values(data, mode='most_frequent')
     result = self.data_transform_usecase.remove_duplicates(result, how='first')
     result = self.data_transform_usecase.aggregate_text_features(result)
     result = self.data_transform_usecase.clean_sentences(result)
     result = self.data_transform_usecase.remove_stopwords(result)
-    result = self.data_transform_usecase.get_duplicates_to(result)
     result = self.data_transform_usecase.sentence_embedding(result)
+    result = self.data_transform_usecase.get_duplicates_to(result)
+    result = self.data_transform_usecase.drop_features(data, features_to_drop=['duplicates'])
 
     return result
   

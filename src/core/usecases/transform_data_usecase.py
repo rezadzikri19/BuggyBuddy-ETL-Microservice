@@ -33,7 +33,7 @@ class TransformDataUsecase:
         data,
         schema_input=DropFeatsInputModel.__annotations__,
         schema_output=DropFeatsOutputModel.__annotations__,
-        pipeline=self.data_transform_driver.impute,
+        pipeline=self.data_transform_driver.drop_features,
         pipeline_args=args)
 
     return result

@@ -13,4 +13,5 @@ class RawDataModel:
     description: str
     resolution: str
     severity: str
+    priority: str
     duplicates: List[int]

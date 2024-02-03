@@ -13,12 +13,12 @@ class ExtractDataRawUsecase():
     self.data_validation_driver = data_validation_driver
     self.data_memory_save_driver = data_memory_save_driver
   
-  def fetch_data(self, **kwargs):
+  def fetch_data(self):
     fields = {
       'include_fields': ['id', 'duplicates', 'summary', 'description', 'status', 'resolution', 'platform', 'product', 'priority', 'severity', 'component'],
       'product': 'firefox',
     }
-    result = self.data_extract_driver.get_data_from_source(fields, **kwargs)
+    result = self.data_extract_driver.get_data_from_source(fields)
 
     return result
   
