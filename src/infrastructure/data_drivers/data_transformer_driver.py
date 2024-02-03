@@ -18,18 +18,19 @@ class DataTransformerDriver(DataTransformerPort):
   
   def drop_features(self, data: MatrixLike, features_to_drop: ArrayLike) -> MatrixLike:
     data = data.drop(columns=features_to_drop, axis=1)
-    
+
     return data
   
   def remove_duplicates(self, data: MatrixLike, keep: str) -> MatrixLike:
     columns = list(data.columns)
-      
     data = data.drop_duplicates(subset=columns, keep=keep)
+    
+    return data
     
   def aggregate_text_features(self, data: MatrixLike):
     data['text'] = data['platform'] + ' ' + data['summary'] + ' ' + data['description']
     data = data.drop(columns=['platform', 'summary', 'description'], axis=1)
-    
+
     return data
   
   def remove_special_chars(text: str):
@@ -40,7 +41,7 @@ class DataTransformerDriver(DataTransformerPort):
     text = re.sub(r'\s$', '', text)
     text = re.sub(r'\s[b-z]\s', ' ', text)
     text = re.sub(r'\s[b-z]\s', ' ', text)
-    
+
     return text
   
   def remove_stopwords(text: str):
@@ -58,6 +59,8 @@ class DataTransformerDriver(DataTransformerPort):
   def sent_embedding(self, data: MatrixLike):
     sent_embd_model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
     data['text_embedded'] = data['text'].apply(sent_embd_model.encode)
+    
+    return data
     
   def get_duplicates_to(self, data: MatrixLike):
     duplicated = data['duplicates'].apply(lambda x: len(x)).sort_values(ascending=False)
