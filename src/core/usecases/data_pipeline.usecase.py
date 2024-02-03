@@ -6,7 +6,8 @@ class DataPipelineUsecaseInterface(ABC):
     pass
 
 class DataPipelineUsecase(DataPipelineUsecaseInterface):
-  def __init__(self) -> None:
+  def __init__(self, data_validation_driver) -> None:
+    self.data_validation_driver = data_validation_driver
     pass
   
   def extract_data_pipeline(self):
