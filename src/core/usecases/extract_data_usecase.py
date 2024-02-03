@@ -1,3 +1,5 @@
+from typing import List
+
 from core.models.raw_data_model import RawDataModel
 from core.ports.data_extractor_port import DataExtractorPort
 from core.ports.data_validation_port import DataValidatorPort
@@ -13,18 +15,18 @@ class ExtractDataRawUsecase():
     self.data_validation_driver = data_validation_driver
     self.data_memory_save_driver = data_memory_save_driver
   
-  def fetch_data(self):
+  def fetch_data(self, excludes: List[str] = None):
     fields = {
       'include_fields': ['id', 'duplicates', 'summary', 'description', 'status', 'resolution', 'platform', 'product', 'priority', 'severity', 'component'],
       'product': 'firefox',
     }
-    result = self.data_extract_driver.get_data_from_source(fields)
+    result = self.data_extract_driver.get_data_from_source(fields, excludes=excludes)
 
     return result
   
-  def format_data(self, data):   
-    result = self.data_extract_driver.format_raw_data(data)
-    result = self.data_memory_save_driver.save_memory(result)
+  def format_data(self, data, excludes: List[str] = None):
+    result = self.data_extract_driver.format_raw_data(data, excludes=excludes)
+    result = self.data_memory_save_driver.save_memory(result, excludes=excludes)
     
     self.data_validation_driver.validate(result, RawDataModel.__annotations__)
     

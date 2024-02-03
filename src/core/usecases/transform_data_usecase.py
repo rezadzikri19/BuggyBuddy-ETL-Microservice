@@ -1,4 +1,5 @@
 from typing import Dict, Any, Callable, List
+
 from core.ports.data_transformer_port import DataTransformerPort
 from core.ports.data_validation_port import DataValidatorPort
 from core.models.transformed_data_model import *
@@ -23,8 +24,8 @@ class TransformDataUsecase:
     
     return result
 
-  def drop_features(self, data, features_to_drop: List[str]):
-    args = {'data': data, 'features_to_drop': features_to_drop}
+  def drop_features(self, data, features_to_drop: List[str], excludes: List[str] = None):
+    args = {'data': data, 'features_to_drop': features_to_drop, 'excludes': excludes}
     
     if not features_to_drop:
       raise Exception('features_to_drop cannot be empty!')
@@ -38,8 +39,8 @@ class TransformDataUsecase:
 
     return result
   
-  def impute_missing_values(self, data, mode: str ='most_frequent', value=None):
-    args = {'data': data, 'mode': mode, 'value': value}
+  def impute_missing_values(self, data, mode: str ='most_frequent', value=None, excludes: List[str] = None):
+    args = {'data': data, 'mode': mode, 'value': value, 'excludes': excludes}
     
     result = self.run_validate_transformer(
         data,
@@ -50,8 +51,8 @@ class TransformDataUsecase:
 
     return result
   
-  def remove_duplicates(self, data, how: str = 'first'):
-    args = {'data': data, 'how': how}
+  def remove_duplicates(self, data, how: str = 'first', excludes: List[str] = None):
+    args = {'data': data, 'how': how, 'excludes': excludes}
     
     result = self.run_validate_transformer(
         data,
@@ -62,8 +63,8 @@ class TransformDataUsecase:
     
     return result
 
-  def aggregate_text_features(self, data):
-    args = {'data': data}
+  def aggregate_text_features(self, data, excludes: List[str] = None):
+    args = {'data': data, 'excludes': excludes}
     
     result = self.run_validate_transformer(
         data,
@@ -74,8 +75,8 @@ class TransformDataUsecase:
     
     return result
 
-  def clean_sentences(self, data):
-    args = {'data': data}
+  def clean_sentences(self, data, excludes: List[str] = None):
+    args = {'data': data, 'excludes': excludes}
     
     result = self.run_validate_transformer(
         data,
@@ -86,8 +87,8 @@ class TransformDataUsecase:
     
     return result
   
-  def remove_stopwords(self, data):
-    args = {'data': data}
+  def remove_stopwords(self, data, excludes: List[str] = None):
+    args = {'data': data, 'excludes': excludes}
     
     result = self.run_validate_transformer(
         data,
@@ -98,8 +99,8 @@ class TransformDataUsecase:
     
     return result
   
-  def sentence_embedding(self, data):
-    args = {'data': data}
+  def sentence_embedding(self, data, excludes: List[str] = None):
+    args = {'data': data, 'excludes': excludes}
     
     result = self.run_validate_transformer(
         data,
@@ -110,8 +111,8 @@ class TransformDataUsecase:
     
     return result
   
-  def get_duplicates_to(self, data):
-    args = {'data': data}
+  def get_duplicates_to(self, data, excludes: List[str] = None):
+    args = {'data': data, 'excludes': excludes}
     
     result = self.run_validate_transformer(
         data,
