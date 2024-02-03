@@ -21,7 +21,7 @@ class DataExtractorDriver(DataExtractorPort):
       if (response.status_code == 200):
         return response.json()
       
-      print(f"Error response with status code: {response.status_code}")
+      print(f'Error response with status code: {response.status_code}')
     except Exception as error:
       print(f'Failed to fetch data: {error}')
       

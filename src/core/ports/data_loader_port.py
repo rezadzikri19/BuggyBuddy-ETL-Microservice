@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from core.types.common_types import MatrixLike, ArrayLike
+from core.types.common_types import MatrixLike
 
 class DataLoaderPort(ABC):
   @abstractmethod

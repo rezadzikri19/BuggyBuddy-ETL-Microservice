@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Dict, Any
 
-from core.types.common_types import MatrixLike, ArrayLike
+from core.types.common_types import MatrixLike
 
 class DataExtractorPort(ABC):
   @abstractmethod
