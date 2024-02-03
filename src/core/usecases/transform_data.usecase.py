@@ -73,7 +73,7 @@ class TransformDataUsecase:
     
     return result
   
-  def aggregate_features(self, data):
+  def aggregate_text_features(self, data):
     schema_input = {}
     schema_output = {}
     args = {'data': data}

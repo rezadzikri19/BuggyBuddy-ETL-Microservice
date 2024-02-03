@@ -1,44 +1,12 @@
 # dump raw data
-# dump train data
 # dump processed data
 
-from abc import ABC, abstractmethod
-
-class DumpDataUsecaseInterface(ABC):
-  @abstractmethod 
-  def dump_data(self):
-    pass
+class DumpData():
+  def __init__(self, data_loader_driver) -> None:
+    self.data_loader_driver = data_loader_driver
+    
+  def dump_raw_data(self, data):
+    self.data_loader_driver.dump_raw_data(data)
   
-  @abstractmethod
-  def format_data(self):
-    pass
-  
-  @abstractmethod
-  def validate_data(self):
-    pass
-  
-class DumpDataRawUsecase(DumpDataUsecaseInterface):
-  def __init__(self) -> None:
-    pass
-  
-  def dump_data(self):
-    pass
-  
-  def format_data(self):
-    pass
-  
-  def validate_data(self):
-    pass
-  
-class DumpDataProcessedUsecase(DumpDataUsecaseInterface):
-  def __init__(self) -> None:
-    pass
-  
-  def dump_data(self):
-    pass
-  
-  def format_data(self):
-    pass
-  
-  def validate_data(self):
-    pass
+  def dump_processed_data(self, data):
+    self.data_loader_driver.dump_processed_data(data)
