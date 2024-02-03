@@ -2,12 +2,15 @@ import requests
 import json
 import concurrent.futures
 from urllib.parse import urlencode
-from typing import List
+from typing import Any, Dict, Optional
 
 from core.ports.data_extractor_port import DataExtractorPort
+from core.models.raw_data_model import RawDataModel
 
 import pandas as pd
 import numpy as np
+
+from core.types.common_types import ArrayLike, MatrixLike
 
 class DataExtractorDriver(DataExtractorPort):
   def __init__(self) -> None:
@@ -37,7 +40,7 @@ class DataExtractorDriver(DataExtractorPort):
 
     return urls
   
-  def get_data_from_source(self, fields):
+  def get_data_from_source(self, fields: Dict[str, Any], excludes: Optional[ArrayLike] = None) -> MatrixLike:
     base_url = 'https://bugzilla.mozilla.org/rest/bug'
     n_fetch = 50
     limit = 5000
@@ -55,4 +58,20 @@ class DataExtractorDriver(DataExtractorPort):
     data = pd.DataFrame(response_data)
     data = data.set_index('id')
     
+    if excludes:
+      data = data.drop(columns=excludes)
+    
     return data
+  
+  def format_raw_data(self, data: MatrixLike, excludes: Optional[ArrayLike] = None) -> MatrixLike:
+    model_columns = list[RawDataModel.__annotations__.keys()]
+    data_columns = ['id', 'type', 'status', 'product', 'component', 'platform', 'summary', 'description', 'resolution', 'severity', 'priority', 'duplicates']
+    
+    if excludes:
+      data_columns = [col for col in data_columns if data not in excludes]
+    
+    column_mapper = {key: value for key, value in zip(data_columns, model_columns)}
+    data = data.rename(columns=column_mapper)
+    
+    return data
+    

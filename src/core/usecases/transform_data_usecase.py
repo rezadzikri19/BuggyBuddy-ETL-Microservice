@@ -24,8 +24,8 @@ class TransformDataUsecase:
     
     return result
 
-  def drop_features(self, data, features_to_drop: List[str], excludes: List[str] = None):
-    args = {'data': data, 'features_to_drop': features_to_drop, 'excludes': excludes}
+  def drop_features(self, data, features_to_drop: List[str]):
+    args = {'data': data, 'features_to_drop': features_to_drop}
     
     if not features_to_drop:
       raise Exception('features_to_drop cannot be empty!')
@@ -39,20 +39,8 @@ class TransformDataUsecase:
 
     return result
   
-  def impute_missing_values(self, data, mode: str ='most_frequent', value=None, excludes: List[str] = None):
-    args = {'data': data, 'mode': mode, 'value': value, 'excludes': excludes}
-    
-    result = self.run_validate_transformer(
-        data,
-        schema_input=ImputeInputModel.__annotations__,
-        schema_output=ImputeOutputModel.__annotations__,
-        pipeline=self.data_transform_driver.impute,
-        pipeline_args=args)
-
-    return result
-  
-  def remove_duplicates(self, data, how: str = 'first', excludes: List[str] = None):
-    args = {'data': data, 'how': how, 'excludes': excludes}
+  def remove_duplicates(self, data, keep: str = 'first'):
+    args = {'data': data, 'keep': keep}
     
     result = self.run_validate_transformer(
         data,
@@ -63,8 +51,8 @@ class TransformDataUsecase:
     
     return result
 
-  def aggregate_text_features(self, data, excludes: List[str] = None):
-    args = {'data': data, 'excludes': excludes}
+  def aggregate_text_features(self, data):
+    args = {'data': data}
     
     result = self.run_validate_transformer(
         data,
@@ -75,20 +63,20 @@ class TransformDataUsecase:
     
     return result
 
-  def clean_sentences(self, data, excludes: List[str] = None):
-    args = {'data': data, 'excludes': excludes}
+  def clean_sentences(self, data):
+    args = {'data': data}
     
     result = self.run_validate_transformer(
         data,
         schema_input=CleanSentInputModel.__annotations__,
         schema_output=CleanSentOutputModel.__annotations__,
-        pipeline=self.data_validation_driver.validate,
+        pipeline=self.data_transform_driver.clean_sentences,
         pipeline_args=args)
     
     return result
   
-  def remove_stopwords(self, data, excludes: List[str] = None):
-    args = {'data': data, 'excludes': excludes}
+  def remove_stopwords(self, data):
+    args = {'data': data}
     
     result = self.run_validate_transformer(
         data,
@@ -99,8 +87,8 @@ class TransformDataUsecase:
     
     return result
   
-  def sentence_embedding(self, data, excludes: List[str] = None):
-    args = {'data': data, 'excludes': excludes}
+  def sentence_embedding(self, data):
+    args = {'data': data}
     
     result = self.run_validate_transformer(
         data,
@@ -111,8 +99,8 @@ class TransformDataUsecase:
     
     return result
   
-  def get_duplicates_to(self, data, excludes: List[str] = None):
-    args = {'data': data, 'excludes': excludes}
+  def get_duplicates_to(self, data):
+    args = {'data': data}
     
     result = self.run_validate_transformer(
         data,

@@ -1,33 +1,32 @@
 from abc import ABC, abstractmethod
-from typing import Optional
 
 from core.types.common_types import MatrixLike, ArrayLike
 
 class DataTransformerPort(ABC):
   @abstractmethod
-  def impute(self, data: MatrixLike, mode: str, value, excludes: Optional[ArrayLike] = None) -> MatrixLike:
+  def drop_features(self, data: MatrixLike, features_to_drop: ArrayLike) -> MatrixLike:
     pass
   
   @abstractmethod
-  def drop_features(self, data: MatrixLike, features_to_drop: ArrayLike, excludes: Optional[ArrayLike] = None) -> MatrixLike:
+  def remove_duplicates(self, data: MatrixLike, keep: str) -> MatrixLike:
     pass
   
   @abstractmethod
-  def remove_duplicates(self, data: MatrixLike, how: str, excludes: Optional[ArrayLike] = None) -> MatrixLike:
+  def clean_sentences(self, data: MatrixLike):
     pass
   
   @abstractmethod
-  def remove_stopwords(self, data: MatrixLike, excludes: Optional[ArrayLike] = None):
+  def remove_stopwords(self, data: MatrixLike):
     pass
   
   @abstractmethod
-  def aggregate_text_features(self, data: MatrixLike, excludes: Optional[ArrayLike] = None):
+  def aggregate_text_features(self, data: MatrixLike):
     pass
   
   @abstractmethod
-  def sent_embedding(self, data: MatrixLike, excludes: Optional[ArrayLike] = None):
+  def sent_embedding(self, data: MatrixLike):
     pass
   
   @abstractmethod
-  def get_duplicates_to(self, data: MatrixLike, excludes: Optional[ArrayLike] = None):
+  def get_duplicates_to(self, data: MatrixLike):
     pass

@@ -80,4 +80,4 @@ class GetDuplicatesToOutputModel():
   bug_id: int
   text: str
   embedded_text: List[int]
-  duplicates: List[int]
+  duplicates_to: int

@@ -22,7 +22,6 @@ class DataPipelineUsecase():
   
   def transform_data_pipeline(self, data):
     result = self.data_transform_usecase.drop_features(data, features_to_drop=['status', 'priority', 'resolution', 'severity', 'component', 'product', 'report_type'])
-    result = self.data_transform_usecase.impute_missing_values(data, mode='most_frequent')
     result = self.data_transform_usecase.remove_duplicates(result, how='first')
     result = self.data_transform_usecase.aggregate_text_features(result)
     result = self.data_transform_usecase.clean_sentences(result)
