@@ -16,7 +16,7 @@ class DataValidationDriver(DataValidatorPort):
   
   def validate(self, data: MatrixLike, schema: Dict[str, type]) -> None:
     expected_columns = list(schema.keys())
-    actual_columns = list(data.columns)
+    data_columns = list(data.columns)
     
-    if not self.equal_list(expected_columns, actual_columns):
+    if not self.equal_list(expected_columns, data_columns):
       raise Exception('incorrect data schema!')
