@@ -1,7 +1,7 @@
 import requests
 import concurrent.futures
 from urllib.parse import urlencode
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 from core.ports.data_extractor_port import DataExtractorPort
 from core.models.raw_data_model import RawDataModel
@@ -16,30 +16,20 @@ class DataExtractorDriver(DataExtractorPort):
     pass
   
   def fetch_data(url: str, params=None):
-    try:
-      response = requests.get(url, params=params)
-      if (response.status_code == 200):
-        return response.json()
-      
-      print(f'Error response with status code: {response.status_code}')
-    except Exception as error:
-      print(f'Failed to fetch data: {error}')
+    response = requests.get(url, params=params)
+    return response.json()
       
   def urls_builder(base_url: str, n_fetch: int, limit: int, **kwargs) -> str:
     urls = []
     for i in range(n_fetch):
-      param = {
-        'offset': i * limit,
-        'limit': limit,
-        **kwargs,
-      }
+      param = {'offset': i * limit, 'limit': limit, **kwargs}
       
       full_url = base_url + '?' + urlencode(param)
       urls.append(full_url)
 
     return urls
   
-  def get_data_from_source(self, fields: Dict[str, Any], excludes: Optional[ArrayLike] = None) -> MatrixLike:
+  def get_data_from_source(self, fields: Dict[str, Any]) -> MatrixLike:
     n_fetch = 50
     limit = 5000
 
@@ -56,17 +46,11 @@ class DataExtractorDriver(DataExtractorPort):
     data = pd.DataFrame(response_data)
     data = data.set_index('id')
     
-    if excludes:
-      data = data.drop(columns=excludes)
-    
     return data
   
-  def format_raw_data(self, data: MatrixLike, excludes: Optional[ArrayLike] = None) -> MatrixLike:
+  def format_raw_data(self, data: MatrixLike) -> MatrixLike:
     model_columns = list[RawDataModel.__annotations__.keys()]
     data_columns = ['id', 'type', 'status', 'product', 'component', 'platform', 'summary', 'description', 'resolution', 'severity', 'priority', 'duplicates']
-    
-    if excludes:
-      data_columns = [col for col in data_columns if data not in excludes]
     
     column_mapper = {key: value for key, value in zip(data_columns, model_columns)}
     data = data.rename(columns=column_mapper)

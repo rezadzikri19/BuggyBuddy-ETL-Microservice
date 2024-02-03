@@ -1,6 +1,5 @@
 from typing import Optional
 
-import pandas as pd
 import numpy as np
 
 from core.ports.data_memory_save_port import DataMemorySavePort
@@ -11,13 +10,13 @@ class DataMemorySaveDriver(DataMemorySavePort):
     pass
   
   def is_convertable_sr(self, col: ArrayLike) -> bool:
-    if col.dtype == np.int64 and\
-        col.max() <= np.iinfo(np.int32).max and\
-        col.min() >= np.iinfo(np.int32).min: return True
+    if col.dtype == np.int64 \
+        and col.max() <= np.iinfo(np.int32).max \
+        and col.min() >= np.iinfo(np.int32).min: return True
     
-    if col.dtype == np.float64 and\
-        col.max() <= np.finfo(np.float32).max and\
-        col.min() >= np.finfo(np.float32).min: return True
+    if col.dtype == np.float64 \
+        and col.max() <= np.finfo(np.float32).max \
+        and col.min() >= np.finfo(np.float32).min: return True
     
     if np.isnan(col.max()): return True
 
