@@ -2,7 +2,7 @@ from typing import Dict
 from collections import Counter
 
 from core.ports.data_validation_port import DataValidatorPort
-from core.types.common_types import MatrixLike
+from core.models.base_model import BaseMatrixModel
 
 class DataValidationDriver(DataValidatorPort):
   def __init__(self) -> None:
@@ -15,7 +15,7 @@ class DataValidationDriver(DataValidatorPort):
     return counter1 == counter2
   
   
-  def validate(self, data: MatrixLike, schema: Dict[str, type]) -> None:
+  def validate(self, data: BaseMatrixModel, schema: Dict[str, type]) -> None:
     expected_columns = list(schema.keys())
     data_columns = list(data.columns)
     

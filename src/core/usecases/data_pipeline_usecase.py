@@ -2,6 +2,7 @@ from core.usecases.extract_data_usecase import ExtractDataRawUsecase
 from core.usecases.transform_data_usecase import TransformDataUsecase
 from core.usecases.dump_data_usecase import DumpDataUsecase
 from core.ports.logger_port import LoggerPort
+from core.models.base_model import BaseMatrixModel
 
 class DataPipelineUsecase():
   def __init__(
@@ -25,7 +26,7 @@ class DataPipelineUsecase():
     return result
   
   
-  def transform_data_pipeline(self, data):
+  def transform_data_pipeline(self, data: BaseMatrixModel) -> BaseMatrixModel:
     result = self.data_transform_usecase.drop_features(data, features_to_drop=['status', 'priority', 'resolution', 'severity', 'component', 'product', 'report_type'])
     result = self.data_transform_usecase.remove_duplicates(result, how='first')
     result = self.data_transform_usecase.aggregate_text_features(result)
@@ -39,7 +40,7 @@ class DataPipelineUsecase():
     return result
   
   
-  def load_data_pipeline(self, data) -> None:
+  def load_data_pipeline(self, data: BaseMatrixModel) -> None:
     self.data_dump_usecase.dump_processed_data(data)
     self.logger.log_info('ETL_PIPELINE [LOAD] - SUCCESS')
   

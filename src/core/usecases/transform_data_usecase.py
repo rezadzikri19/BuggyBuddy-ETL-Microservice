@@ -4,6 +4,7 @@ from core.ports.data_transformer_port import DataTransformerPort
 from core.ports.data_validation_port import DataValidatorPort
 from core.ports.logger_port import LoggerPort
 
+from core.models.base_model import BaseMatrixModel
 from core.models.transformed_data_model import *
 
 class TransformDataUsecase:
@@ -18,18 +19,19 @@ class TransformDataUsecase:
   
   
   def run_validate_transformer(
-      self, data,
+      self,
+      data: BaseMatrixModel,
       schema_input: Dict[str, Any],
       schema_output: Dict[str, Any],
       transformer: Callable[..., None],
-      transformer_args: Dict[str, Any]):
+      transformer_args: Dict[str, Any]) -> BaseMatrixModel:
     self.data_validator.validate(data, schema_input)
     result = transformer(**transformer_args)
     self.data_validator.validate(result, schema_output)
     return result
 
 
-  def drop_features(self, data, features_to_drop: List[str]):
+  def drop_features(self, data: BaseMatrixModel, features_to_drop: List[str]) -> BaseMatrixModel:
     try:
       if not features_to_drop:
         raise Exception('features_to_drop cannot be empty!')
@@ -46,7 +48,7 @@ class TransformDataUsecase:
       self.logger.log_error(error_message)
   
   
-  def remove_duplicates(self, data, keep: str = 'first'):
+  def remove_duplicates(self, data: BaseMatrixModel, keep: str = 'first') -> BaseMatrixModel:
     try:     
       result = self.run_validate_transformer(
           data,
@@ -60,7 +62,7 @@ class TransformDataUsecase:
       self.logger.log_error(error_message)
 
 
-  def aggregate_text_features(self, data):
+  def aggregate_text_features(self, data: BaseMatrixModel) -> BaseMatrixModel:
     try:      
       result = self.run_validate_transformer(
           data,
@@ -74,7 +76,7 @@ class TransformDataUsecase:
       self.logger.log_error(error_message)
 
 
-  def clean_sentences(self, data):
+  def clean_sentences(self, data: BaseMatrixModel) -> BaseMatrixModel:
     try:     
       result = self.run_validate_transformer(
           data,
@@ -88,7 +90,7 @@ class TransformDataUsecase:
       self.logger.log_error(error_message)
   
   
-  def remove_stopwords(self, data):
+  def remove_stopwords(self, data: BaseMatrixModel) -> BaseMatrixModel:
     try:      
       result = self.run_validate_transformer(
           data,
@@ -102,7 +104,7 @@ class TransformDataUsecase:
       self.logger.log_error(error_message)
   
   
-  def sentence_embedding(self, data):
+  def sentence_embedding(self, data: BaseMatrixModel) -> BaseMatrixModel:
     try:
       result = self.run_validate_transformer(
           data,
@@ -116,7 +118,7 @@ class TransformDataUsecase:
       self.logger.log_error(error_message)
   
   
-  def get_duplicates_to(self, data):
+  def get_duplicates_to(self, data: BaseMatrixModel) -> BaseMatrixModel:
     try:      
       result = self.run_validate_transformer(
           data,

@@ -1,13 +1,17 @@
 import re
+from typing import List, Any
 
 import nltk
+import pandas as pd
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 
 from sentence_transformers import SentenceTransformer
 
 from core.ports.data_transformer_port import DataTransformerPort
-from core.types.common_types import ArrayLike, MatrixLike
+from core.models.base_model import BaseMatrixModel
+
+from infrastructure.utils.data_utils import dataframe_wrapper
 
 nltk.download('stopwords')
 nltk.download('punkt')
@@ -16,19 +20,21 @@ class DataTransformerDriver(DataTransformerPort):
   def __init__(self) -> None:
     pass
 
-
-  def drop_features(self, data: MatrixLike, features_to_drop: ArrayLike) -> MatrixLike:
+  @dataframe_wrapper
+  def drop_features(self, data: pd.DataFrame, features_to_drop: List[Any]) -> pd.DataFrame:
     data = data.drop(columns=features_to_drop, axis=1)
     return data
   
   
-  def remove_duplicates(self, data: MatrixLike, keep: str) -> MatrixLike:
+  @dataframe_wrapper
+  def remove_duplicates(self, data: pd.DataFrame, keep: str) -> pd.DataFrame:
     columns = list(data.columns)
     data = data.drop_duplicates(subset=columns, keep=keep)
     return data
 
 
-  def aggregate_text_features(self, data: MatrixLike):
+  @dataframe_wrapper
+  def aggregate_text_features(self, data: pd.DataFrame) -> pd.DataFrame:
     data['text'] = data['platform'] + ' ' + data['summary'] + ' ' + data['description']
     data = data.drop(columns=['platform', 'summary', 'description'], axis=1)
     return data
@@ -53,18 +59,21 @@ class DataTransformerDriver(DataTransformerPort):
     return ' '.join(filtered_words)
   
   
-  def clean_sentences(self, data: MatrixLike):
+  @dataframe_wrapper
+  def clean_sentences(self, data: pd.DataFrame) -> pd.DataFrame:
     data['text_cleaned'] = data['text'].apply(self.remove_special_chars)
     return data
   
   
-  def sent_embedding(self, data: MatrixLike):
+  @dataframe_wrapper
+  def sent_embedding(self, data: pd.DataFrame) -> pd.DataFrame:
     sent_embd_model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
     data['text_embedded'] = data['text'].apply(sent_embd_model.encode)
     return data
     
-    
-  def get_duplicates_to(self, data: MatrixLike):
+  
+  @dataframe_wrapper
+  def get_duplicates_to(self, data: pd.DataFrame) -> pd.DataFrame:
     duplicated = data['duplicates'].apply(lambda x: len(x)).sort_values(ascending=False)
     duplicated = duplicated[duplicated > 0]
     

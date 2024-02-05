@@ -1,4 +1,3 @@
-import requests
 import concurrent.futures
 from urllib.parse import urlencode
 from typing import Any, Dict
@@ -6,10 +5,13 @@ from typing import Any, Dict
 from core.ports.data_extractor_port import DataExtractorPort
 from core.models.raw_data_model import RawDataModel
 
+from infrastructure.utils.data_utils import dataframe_wrapper
+
 import pandas as pd
+import requests
+
 from configs import DATA_SOURCE_BASEURL
 
-from core.types.common_types import MatrixLike
 
 class DataExtractorDriver(DataExtractorPort):
   def __init__(self) -> None:
@@ -31,7 +33,8 @@ class DataExtractorDriver(DataExtractorPort):
     return urls
   
   
-  def get_data_from_source(self, fields: Dict[str, Any]) -> MatrixLike:
+  @dataframe_wrapper
+  def get_data_from_source(self, data: None, fields: Dict[str, Any]) -> pd.DataFrame:
     n_fetch = 50
     limit = 5000
 
@@ -50,7 +53,8 @@ class DataExtractorDriver(DataExtractorPort):
     return data
   
   
-  def format_raw_data(self, data: MatrixLike) -> MatrixLike:
+  @dataframe_wrapper
+  def format_raw_data(self, data: pd.DataFrame) -> pd.DataFrame:
     model_columns = list[RawDataModel.__annotations__.keys()]
     data_columns = ['id', 'type', 'status', 'product', 'component', 'platform', 'summary', 'description', 'resolution', 'severity', 'priority', 'duplicates']
     

@@ -1,5 +1,6 @@
 from core.ports.data_loader_port import DataLoaderPort
 from core.ports.logger_port import LoggerPort
+from core.models.base_model import BaseMatrixModel
 
 class DumpDataUsecase():
   def __init__(
@@ -10,7 +11,7 @@ class DumpDataUsecase():
     self.logger = logger
     
     
-  def dump_raw_data(self, data):
+  def dump_raw_data(self, data: BaseMatrixModel):
     try:
       self.data_loader.dump_raw_data(data)
     except Exception as error:
@@ -18,7 +19,7 @@ class DumpDataUsecase():
       self.logger.log_error(error_message)
         
         
-  def dump_processed_data(self, data):
+  def dump_processed_data(self, data: BaseMatrixModel):
     try:
       self.data_loader.dump_processed_data(data)
     except Exception as error:
