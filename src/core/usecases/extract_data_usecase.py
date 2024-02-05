@@ -16,6 +16,7 @@ class ExtractDataRawUsecase():
     self.data_memory_saver = data_memory_saver
     self.logger = logger
   
+  
   def fetch_data(self):
     try:
       fields = {
@@ -23,12 +24,11 @@ class ExtractDataRawUsecase():
         'product': 'firefox',
       }
       result = self.data_extractor.get_data_from_source(fields)
-
       return result
     except Exception as error:
       error_message = f'ExtractDataRawUsecase.fetch_data: {error}'
       self.logger.log_error(error_message)
-      
+  
   
   def format_data(self, data):
     try:
@@ -36,7 +36,6 @@ class ExtractDataRawUsecase():
       result = self.data_memory_saver.save_memory(result)
       
       self.data_validator.validate(result, RawDataModel.__annotations__)
-      
       return result
     except Exception as error:
       error_message = f'ExtractDataRawUsecase.format_data: {error}'

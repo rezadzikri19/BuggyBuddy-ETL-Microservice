@@ -15,10 +15,12 @@ class DataExtractorDriver(DataExtractorPort):
   def __init__(self) -> None:
     pass
   
+  
   def fetch_data(self, url: str, params=None):
     response = requests.get(url, params=params)
     return response.json()
-      
+
+
   def urls_builder(self, base_url: str, n_fetch: int, limit: int, **kwargs) -> str:
     urls = []
     for i in range(n_fetch):
@@ -26,8 +28,8 @@ class DataExtractorDriver(DataExtractorPort):
       
       full_url = base_url + '?' + urlencode(param)
       urls.append(full_url)
-
     return urls
+  
   
   def get_data_from_source(self, fields: Dict[str, Any]) -> MatrixLike:
     n_fetch = 50
@@ -45,8 +47,8 @@ class DataExtractorDriver(DataExtractorPort):
     
     data = pd.DataFrame(response_data)
     data = data.set_index('id')
-    
     return data
+  
   
   def format_raw_data(self, data: MatrixLike) -> MatrixLike:
     model_columns = list[RawDataModel.__annotations__.keys()]
@@ -54,6 +56,5 @@ class DataExtractorDriver(DataExtractorPort):
     
     column_mapper = {key: value for key, value in zip(data_columns, model_columns)}
     data = data.rename(columns=column_mapper)
-    
     return data
     

@@ -12,7 +12,8 @@ class LoggerDriver(LoggerPort):
         cls._instance = super(LoggerDriver, cls).__new__(cls)
         cls._instance._initialize()
       return cls._instance
-      
+
+
   def _initialize(self) -> None:
     self.logger = logging.getLogger(__name__)
     self.logger.setLevel(logging.DEBUG)
@@ -32,12 +33,15 @@ class LoggerDriver(LoggerPort):
     console_handler.setFormatter(formatter)
     self.logger.addHandler(console_handler)
 
+
   def log_info(self, message: str) -> None:
     self.logger.info(message)
-    
+
+
   def log_error(self, message: str) -> None:
     self.logger.error(message)
-    
+
+
   def close_logger(self) -> None:
     for handler in self.logger.handlers:
       handler.close()

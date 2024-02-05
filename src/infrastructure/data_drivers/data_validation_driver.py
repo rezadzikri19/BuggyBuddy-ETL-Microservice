@@ -8,11 +8,12 @@ class DataValidationDriver(DataValidatorPort):
   def __init__(self) -> None:
     pass
   
+  
   def equal_list(list1, list2):
     counter1 = Counter(list1)
     counter2 = Counter(list2)
-
     return counter1 == counter2
+  
   
   def validate(self, data: MatrixLike, schema: Dict[str, type]) -> None:
     expected_columns = list(schema.keys())

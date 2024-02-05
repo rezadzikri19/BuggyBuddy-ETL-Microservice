@@ -16,6 +16,7 @@ class TransformDataUsecase:
     self.data_validator = data_validator
     self.logger = logger
   
+  
   def run_validate_transformer(
       self, data,
       schema_input: Dict[str, Any],
@@ -25,8 +26,8 @@ class TransformDataUsecase:
     self.data_validator.validate(data, schema_input)
     result = transformer(**transformer_args)
     self.data_validator.validate(result, schema_output)
-
     return result
+
 
   def drop_features(self, data, features_to_drop: List[str]):
     try:
@@ -39,11 +40,11 @@ class TransformDataUsecase:
           schema_output=DropFeatsOutputModel.__annotations__,
           transformer=self.data_transformer.drop_features,
           transformer_args={'data': data, 'features_to_drop': features_to_drop})
-
       return result
     except Exception as error:
       error_message = f'TransformDataUsecase.drop_features: {error}'
       self.logger.log_error(error_message)
+  
   
   def remove_duplicates(self, data, keep: str = 'first'):
     try:     
@@ -53,11 +54,11 @@ class TransformDataUsecase:
           schema_output=RemoveDuplicatesOutputModel.__annotations__,
           transformer=self.data_transformer.remove_duplicates,
           transformer_args={'data': data, 'keep': keep})
-
       return result
     except Exception as error:
       error_message = f'TransformDataUsecase.remove_duplicates: {error}'
       self.logger.log_error(error_message)
+
 
   def aggregate_text_features(self, data):
     try:      
@@ -67,11 +68,11 @@ class TransformDataUsecase:
           schema_output=AggregateTextoutputModel.__annotations__,
           transformer=self.data_transformer.aggregate_text_features,
           transformer_args={'data': data})
-      
       return result
     except Exception as error:
       error_message = f'TransformDataUsecase.aggregate_text_features: {error}'
       self.logger.log_error(error_message)
+
 
   def clean_sentences(self, data):
     try:     
@@ -81,11 +82,11 @@ class TransformDataUsecase:
           schema_output=CleanSentOutputModel.__annotations__,
           transformer=self.data_transformer.clean_sentences,
           transformer_args={'data': data})
-      
       return result
     except Exception as error:
       error_message = f'TransformDataUsecase.clean_sentences: {error}'
       self.logger.log_error(error_message)
+  
   
   def remove_stopwords(self, data):
     try:      
@@ -95,11 +96,11 @@ class TransformDataUsecase:
           schema_output=RemoveStopsOutputModel.__annotations__,
           transformer=self.data_transformer.remove_stopwords,
           transformer_args={'data': data})
-      
       return result
     except Exception as error:
       error_message = f'TransformDataUsecase.remove_stopwords: {error}'
       self.logger.log_error(error_message)
+  
   
   def sentence_embedding(self, data):
     try:
@@ -109,11 +110,11 @@ class TransformDataUsecase:
           schema_output=SentEmbeddingOutputModel.__annotations__,
           transformer=self.data_transformer.sent_embedding,
           transformer_args={'data': data})  
-      
       return result
     except Exception as error:
       error_message = f'TransformDataUsecase.sentence_embedding: {error}'
       self.logger.log_error(error_message)
+  
   
   def get_duplicates_to(self, data):
     try:      
@@ -123,7 +124,6 @@ class TransformDataUsecase:
           schema_output=GetDuplicatesToOutputModel.__annotations__,
           transformer=self.data_transformer.get_duplicates_to,
           transformer_args={'data': data})
-      
       return result
     except Exception as error:
       error_message = f'TransformDataUsecase.get_duplicates_to: {error}'

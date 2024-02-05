@@ -15,14 +15,15 @@ class DataPipelineUsecase():
     self.data_dump_usecase = data_dump_usecase
     self.logger = logger
   
+  
   def extract_data_pipeline(self):
     result = self.data_extract_usecase.fetch_data()
     result = self.data_extract_usecase.format_data(result)
 
     self.data_dump_usecase.dump_raw_data(result)
     self.logger.log_info('ETL_PIPELINE [EXTRACT] - SUCCESS')
-    
     return result
+  
   
   def transform_data_pipeline(self, data):
     result = self.data_transform_usecase.drop_features(data, features_to_drop=['status', 'priority', 'resolution', 'severity', 'component', 'product', 'report_type'])
@@ -35,17 +36,16 @@ class DataPipelineUsecase():
     result = self.data_transform_usecase.drop_features(data, features_to_drop=['duplicates'])
 
     self.logger.log_info('ETL_PIPELINE [TRANSFORM] - SUCCESS')
-    
     return result
+  
   
   def load_data_pipeline(self, data) -> None:
     self.data_dump_usecase.dump_processed_data(data)
-    
     self.logger.log_info('ETL_PIPELINE [LOAD] - SUCCESS')
+  
   
   def run_pipeline(self) -> None:
     result = self.extract_data_pipeline()
     result = self.transform_data_pipeline(result)
     self.load_data_pipeline(result)
-    
     self.logger.log_info('ETL_PIPELINE [ALL] - SUCCESS')
