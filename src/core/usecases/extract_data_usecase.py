@@ -1,7 +1,6 @@
 from core.models.raw_data_model import RawDataModel
 from core.ports.data_extractor_port import DataExtractorPort
 from core.ports.data_validation_port import DataValidatorPort
-from core.ports.data_memory_save_port import DataMemorySavePort
 from core.ports.logger_port import LoggerPort
 from core.models.base_model import BaseMatrixModel
 
@@ -10,11 +9,9 @@ class ExtractDataRawUsecase():
       self,
       data_extractor: DataExtractorPort,
       data_validator: DataValidatorPort,
-      data_memory_saver: DataMemorySavePort,
       logger: LoggerPort) -> None:
     self.data_extractor = data_extractor
     self.data_validator = data_validator
-    self.data_memory_saver = data_memory_saver
     self.logger = logger
   
   
