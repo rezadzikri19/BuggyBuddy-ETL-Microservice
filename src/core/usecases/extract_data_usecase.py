@@ -15,7 +15,7 @@ class ExtractDataRawUsecase():
     self.logger = logger
   
   
-  def fetch_data(self):
+  def fetch_data(self) -> BaseMatrixModel:
     try:
       fields = {
         'include_fields': ['id', 'duplicates', 'summary', 'description', 'status', 'resolution', 'platform', 'product', 'priority', 'severity', 'component'],
@@ -28,7 +28,7 @@ class ExtractDataRawUsecase():
       self.logger.log_error(error_message)
   
   
-  def format_data(self, data: BaseMatrixModel):
+  def format_data(self, data: BaseMatrixModel) -> BaseMatrixModel:
     try:
       result = self.data_extractor.format_raw_data(data)      
       self.data_validator.validate(result, RawDataModel.__annotations__)

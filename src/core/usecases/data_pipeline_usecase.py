@@ -17,7 +17,7 @@ class DataPipelineUsecase():
     self.logger = logger
   
   
-  def extract_data_pipeline(self):
+  def extract_data_pipeline(self) -> BaseMatrixModel:
     result = self.data_extract_usecase.fetch_data()
     result = self.data_extract_usecase.format_data(result)
 

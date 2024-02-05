@@ -5,4 +5,4 @@ from typing import List
 class ProcessedDataModel:
   text: str
   text_embedded: List[int]
-  duplicates_to = int
+  duplicates_to: int
