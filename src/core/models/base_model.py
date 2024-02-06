@@ -14,12 +14,12 @@ class BaseMatrixModel:
     self._validate_size()
     self._validate_types()
     
-    if not index and data:
+    if index is None and data is not None:
       self.index = list(range(len(data)))
   
   
   def _validate_size(self) -> None:
-    if not self.data:
+    if self.data is None:
       return
 
     result = all(len(row) == len(self.data[0]) for row in self.data)
@@ -27,20 +27,20 @@ class BaseMatrixModel:
     if not result:
       raise Exception('BaseMatrixModel._validate_size: incorrect matrix size!')
     
-    if self.columns and len(self.data[0]) != len(self.columns):
+    if self.columns is not None and len(self.data[0]) != len(self.columns):
       raise Exception('BaseMatrixModel._validate_size: data size does not match with number of columns!')
     
     self.size = (len(self.data), len(self.columns))
   
   
   def _validate_types(self) -> None:
-    if not self.data:
+    if self.data is None:
       return
 
     transposed = list(map(list, zip(*self.data)))
-    transposed = [sorted(col, key=lambda item: (item is None, item)) for col in transposed]
+    transposed = [sorted(col, key=lambda item: 1 if item is None else 0) for col in transposed]
     
-    result = all(all(type(item) == type(row[0]) or item == None for item in row) for row in transposed)
+    result = all(all((type(item) == type(row[0])) or (item is None) for item in row) for row in transposed)
     
     if not result:
       raise Exception('BaseMatrixModel._validate_types: mixing data type found!')
@@ -70,19 +70,19 @@ class BaseArrayModel:
     self._validate_size()
     self._validate_type()
     
-    if data and not index:
+    if index is None and data is not None:
       self.index = list(range(len(data)))
   
   
   def _validate_size(self) -> None:
-    if not self.data:
+    if self.data is None:
       return
     
     self.size = (len(self.data), )
   
   
   def _validate_type(self, data: List[Any]) -> None:
-    if not self.data:
+    if self.data is None:
       return
     
     result = all(type(item) == type(data[0]) for item in data)

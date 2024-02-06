@@ -11,7 +11,7 @@ def base_array_to_series(data_array: BaseArrayModel) -> pd.Series:
 
 
 def dataframe_to_base_matrix(df_data: pd.DataFrame) -> BaseMatrixModel:
-  return BaseMatrixModel(data=df_data.values.tolist(), columns=list(df_data.columns), index=df_data.index.tolist())
+  return BaseMatrixModel(data=df_data.values.tolist(), columns=list(df_data.columns), index=list(df_data.index))
 
 
 def series_to_base_array(sr_data: pd.Series) -> BaseArrayModel:
@@ -26,7 +26,7 @@ def dataframe_wrapper(func):
     data = func(self, data=data, *args, **kwargs)
     
     if data is not None:
-      data = dataframe_to_base_matrix(data)   
+      data = dataframe_to_base_matrix(data)
     return data
   return wrapper
 

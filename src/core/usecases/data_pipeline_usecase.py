@@ -30,7 +30,7 @@ class DataPipelineUsecase():
   
   def transform_data_pipeline(self, data: BaseMatrixModel) -> BaseMatrixModel:
     result = self.data_transform_usecase.drop_unused_features(data)
-    result = self.data_transform_usecase.remove_duplicates(result, how='first')
+    result = self.data_transform_usecase.remove_duplicates(result, keep='first')
     result = self.data_transform_usecase.aggregate_text_features(result)
     result = self.data_transform_usecase.clean_sentences(result)
     result = self.data_transform_usecase.remove_stopwords(result)

@@ -70,7 +70,7 @@ class TransformDataUsecase:
   @io_data_validation(schema_input=RemoveStopsModel(), schema_output=SentEmbeddingModel())
   def sentence_embedding(self, data: RemoveStopsModel) -> SentEmbeddingModel:
     try:
-      result = self.data_transformer.sent_embedding(data) 
+      result = self.data_transformer.sent_embedding(data)
       return result
     except Exception as error:
       error_message = f'TransformDataUsecase.sentence_embedding: {error}'

@@ -9,10 +9,11 @@ from src.infrastructure.data_drivers.data_loader_driver import DataLoaderDriver
 from src.infrastructure.loggers.logger_driver import LoggerDriver
 
 def main():
-  data_extractor_driver = DataExtractorDriver()
-  data_transformer_driver = DataTransformerDriver()
-  data_loader_driver = DataLoaderDriver()
   logger_driver = LoggerDriver()
+  
+  data_extractor_driver = DataExtractorDriver(logger_driver)
+  data_transformer_driver = DataTransformerDriver(logger_driver)
+  data_loader_driver = DataLoaderDriver(logger_driver)
   
   extract_data_usecase = ExtractDataRawUsecase(
     data_extractor_driver,
@@ -32,7 +33,10 @@ def main():
     dump_data_usecase,
     logger_driver)
   
-  data_pipeline_usecase.extract_data_pipeline()
+  result = data_pipeline_usecase.extract_data_pipeline()
+  result = data_pipeline_usecase.transform_data_pipeline(result)
+  
+  print(result)
 
 if __name__ == "__main__":
   main()
