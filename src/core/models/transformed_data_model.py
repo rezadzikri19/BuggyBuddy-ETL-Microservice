@@ -1,83 +1,94 @@
-from dataclasses import dataclass
-from typing import List
+from typing import List, Optional, Any
 
-from core.models.raw_data_model import RawDataModel 
-
-@dataclass
-class DropFeatsInputModel(RawDataModel):
-  pass
-@dataclass
-class DropFeatsOutputModel:
-  bug_id: int
-  platform: str
-  summary: str
-  description: str
-  duplicates: List[int]
+from core.models.base_model import BaseMatrixModel
 
 
-@dataclass
-class ImputeInputModel(DropFeatsOutputModel):
-  pass
-@dataclass
-class ImputeOutputModel(DropFeatsOutputModel):
-  pass
+class DropFeatsModel(BaseMatrixModel):
+  def __init__(self, data: Optional[List[List[Any]]] = None, index: Optional[List[Any]] = None) -> None:
+    super().__init__(data=data, index=index)
+    
+    self.columns = {
+        'bug_id': int,
+        'platform': str,
+        'summary': str,
+        'description': str,
+        'duplicates': List[int]
+      }
 
 
-@dataclass
-class RemoveDuplicatesInputModel(DropFeatsOutputModel):
-  pass
-@dataclass
-class RemoveDuplicatesOutputModel(DropFeatsOutputModel):
-  pass
+
+class RemoveDuplicatesModel(BaseMatrixModel):
+  def __init__(self, data: Optional[List[List[Any]]] = None, index: Optional[List[Any]] = None) -> None:
+    super().__init__(data=data, index=index)
+
+    self.columns = {
+        'bug_id': int,
+        'platform': str,
+        'summary': str,
+        'description': str,
+        'duplicates': List[int]
+      }
+    
 
 
-@dataclass
-class AggregateTextInputModel(DropFeatsOutputModel):
-  pass
-@dataclass
-class AggregateTextoutputModel():
-  bug_id: int
-  text: str
-  duplicates: List[int]
+class AggregateTextModel(BaseMatrixModel):
+  def __init__(self, data: Optional[List[List[Any]]] = None, index: Optional[List[Any]] = None) -> None:
+    super().__init__(data=data, index=index)
+
+    self.columns = {
+        'bug_id': int,
+        'text': str,
+        'duplicates': List[int]
+      }
+    
+
+
+class CleanSentModel(BaseMatrixModel):
+  def __init__(self, data: Optional[List[List[Any]]] = None, index: Optional[List[Any]] = None) -> None:
+    super().__init__(data=data, index=index)
+
+    self.columns = {
+        'bug_id': int,
+        'text': str,
+        'text_cleaned': str,
+        'duplicates': List[int]
+      }
+
+
+
+class RemoveStopsModel(BaseMatrixModel):
+  def __init__(self, data: Optional[List[List[Any]]] = None, index: Optional[List[Any]] = None) -> None:
+    super().__init__(data=data, index=index)
+
+    self.columns = {
+        'bug_id': int,
+        'text': str,
+        'text_cleaned': str,
+        'duplicates': List[int]
+      }
+
+
+
+class SentEmbeddingModel(BaseMatrixModel):
+  def __init__(self, data: Optional[List[List[Any]]] = None, index: Optional[List[Any]] = None) -> None:
+    super().__init__(data=data, index=index)
+
+    self.columns = {
+        'bug_id': int,
+        'text': str,
+        'embedded_text': List[int],
+        'duplicates': List[int]
+      }
   
 
-@dataclass
-class CleanSentInputModel(AggregateTextoutputModel):
-  pass
-@dataclass
-class CleanSentOutputModel():
-  bug_id: int
-  text: str
-  duplicates: List[int]
-  cleaned_text: str
 
+class GetDuplicatesToModel(BaseMatrixModel):
+  def __init__(self, data: Optional[List[List[Any]]] = None, index: Optional[List[Any]] = None) -> None:
+    super().__init__(data=data, index=index)
 
-@dataclass
-class RemoveStopsInputModel(CleanSentOutputModel):
-  pass
-@dataclass
-class RemoveStopsOutputModel(CleanSentOutputModel):
-  pass
-
-
-@dataclass
-class SentEmbeddingInputModel(CleanSentOutputModel):
-  pass
-@dataclass
-class SentEmbeddingOutputModel():
-  bug_id: int
-  text: str
-  duplicates: List[int]
-  cleaned_text: str
-  embedded_text: List[int]
-  
-  
-@dataclass
-class GetDuplicatesToInputModel(SentEmbeddingOutputModel):
-  pass
-@dataclass
-class GetDuplicatesToOutputModel():
-  bug_id: int
-  text: str
-  embedded_text: List[int]
-  duplicates_to: int
+    self.columns = {
+        'bug_id': int,
+        'text': str,
+        'embedded_text': List[int],
+        'duplicates_to': int
+      }

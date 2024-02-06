@@ -1,45 +1,53 @@
-from typing import List, Optional, Any, Tuple
+from typing import List, Optional, Any, Dict
 
 class BaseMatrixModel:
   def __init__(
       self,
-      columns: List[str],
-      data: List[List[Any]],
+      columns: Optional[Dict[str, Any]] = None,
+      data: Optional[List[List[Any]]] = None,
       index: Optional[List[Any]] = None) -> None:
     self.columns = columns
     self.data = data
     self.index = index
+    self.size = None
     
-    if not index:
+    self._validate_size()
+    self._validate_types()
+    
+    if not index and data:
       self.index = list(range(len(data)))
-      
-    self.size = self._validate_size(data)
-    self.data_types = self._validate_types(data)
   
-  def _validate_size(self, data: List[List[Any]]) -> Tuple[int]:
-    result = all(len(row) == len(data[0]) for row in data)
+  
+  def _validate_size(self) -> None:
+    if not self.data: return
+
+    result = all(len(row) == len(self.data[0]) for row in self.data)
     
     if not result:
       raise Exception('BaseMatrixModel._validate_size: incorrect matrix size!')
     
-    return (len(data), len(data[0]))
+    if self.columns and len(self.data[0]) != len(self.columns):
+      raise Exception('BaseMatrixModel._validate_size: data size does not match with number of columns!')
+    
+    self.size = (len(self.data), len(self.columns))
   
   
-  def _validate_types(self, data: List[List[Any]]) -> List[type]:
-    result = all(all(type(item) == type(row[0]) for item in row) for row in data)
+  def _validate_types(self) -> None:
+    if not self.data: return
+
+    transposed = list(map(list, zip(*self.data)))
+    transposed = [sorted(col, key=lambda item: (item is None, item)) for col in transposed]
+    
+    result = all(all(type(item) == type(row[0]) or item == None for item in row) for row in transposed)
     
     if not result:
       raise Exception('BaseMatrixModel._validate_types: mixing data type found!')
-
-    data_types = [type(row[0]) for row in data]
-    return data_types
 
   
   def __getitem__(self, key):
     if type(key) == list:
       idx, col = key
       col_idx = self.columns.index(col)
-      
       return self.data[idx][col_idx]
     
     return self.data[key]
@@ -48,28 +56,33 @@ class BaseMatrixModel:
 
 class BaseArrayModel:
   def __init__(
-    self,
-      column: str,
-      data: List[Any],
-      index: Optional[List[Any]]) -> None:
+      self,
+      column: Optional[Dict[str, Any]] = None,
+      data: Optional[List[Any]] = None,
+      index: Optional[List[Any]] = None) -> None:
     self.column = column
     self.data = data
     self.index = index
+    self.size = None
     
-    if not index:
+    self._validate_size()
+    self._validate_type()
+    
+    if data and not index:
       self.index = list(range(len(data)))
-      
-    self.data_type = self._validate_type(data)
+  
+  
+  def _validate_size(self) -> None:
+    if not self.data: return
+    self.size = (len(self.data), )
   
   
   def _validate_type(self, data: List[Any]) -> None:
+    if not self.data: return
     result = all(type(item) == type(data[0]) for item in data)
     
     if not result:
-      raise Exception('mixing data type found!')
-    
-    data_type = type(data[0])
-    return data_type
+      raise Exception('BaseArrayModel._validate_type: mixing data type found!')
   
   
   def __getitem__(self, idx):

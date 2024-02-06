@@ -1,7 +1,9 @@
 from core.usecases.extract_data_usecase import ExtractDataRawUsecase
 from core.usecases.transform_data_usecase import TransformDataUsecase
 from core.usecases.dump_data_usecase import DumpDataUsecase
+
 from core.ports.logger_port import LoggerPort
+
 from core.models.base_model import BaseMatrixModel
 
 class DataPipelineUsecase():
@@ -27,14 +29,13 @@ class DataPipelineUsecase():
   
   
   def transform_data_pipeline(self, data: BaseMatrixModel) -> BaseMatrixModel:
-    result = self.data_transform_usecase.drop_features(data, features_to_drop=['status', 'priority', 'resolution', 'severity', 'component', 'product', 'report_type'])
+    result = self.data_transform_usecase.drop_unused_features(data)
     result = self.data_transform_usecase.remove_duplicates(result, how='first')
     result = self.data_transform_usecase.aggregate_text_features(result)
     result = self.data_transform_usecase.clean_sentences(result)
     result = self.data_transform_usecase.remove_stopwords(result)
     result = self.data_transform_usecase.sentence_embedding(result)
     result = self.data_transform_usecase.get_duplicates_to(result)
-    result = self.data_transform_usecase.drop_features(data, features_to_drop=['duplicates'])
 
     self.logger.log_info('ETL_PIPELINE [TRANSFORM] - SUCCESS')
     return result

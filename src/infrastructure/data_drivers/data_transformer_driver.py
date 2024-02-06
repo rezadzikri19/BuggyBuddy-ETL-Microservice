@@ -68,7 +68,8 @@ class DataTransformerDriver(DataTransformerPort):
   @dataframe_wrapper
   def sent_embedding(self, data: pd.DataFrame) -> pd.DataFrame:
     sent_embd_model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
-    data['text_embedded'] = data['text'].apply(sent_embd_model.encode)
+    data['text_embedded'] = data['text_cleaned'].apply(sent_embd_model.encode)
+    data = data.drop(columns=['text_cleaned'])
     return data
     
   
