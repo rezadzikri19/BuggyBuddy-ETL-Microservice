@@ -1,6 +1,6 @@
 from typing import List, Optional, Any
 
-from core.models.base_model import BaseMatrixModel
+from ...core.models.base_model import BaseMatrixModel
 
 
 class DropFeatsModel(BaseMatrixModel):

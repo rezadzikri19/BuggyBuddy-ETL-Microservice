@@ -1,10 +1,10 @@
-from core.ports.data_transformer_port import DataTransformerPort
-from core.ports.logger_port import LoggerPort
+from ...core.ports.data_transformer_port import DataTransformerPort
+from ...core.ports.logger_port import LoggerPort
 
-from core.utils.data_validation_utils import io_data_validation
+from ...core.utils.data_validation_utils import io_data_validation
 
-from core.models.raw_data_model import RawDataModel
-from core.models.transformed_data_model import *
+from ...core.models.raw_data_model import RawDataModel
+from ...core.models.transformed_data_model import *
 
 class TransformDataUsecase:
   def __init__(

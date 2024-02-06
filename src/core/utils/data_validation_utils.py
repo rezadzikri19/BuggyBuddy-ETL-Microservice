@@ -1,4 +1,4 @@
-from core.models.base_model import BaseMatrixModel
+from ...core.models.base_model import BaseMatrixModel
 
 
 def validate_data(data: BaseMatrixModel, schema: BaseMatrixModel) -> None:

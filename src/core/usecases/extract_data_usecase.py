@@ -1,9 +1,9 @@
-from core.ports.data_extractor_port import DataExtractorPort
-from core.ports.logger_port import LoggerPort
+from ...core.ports.data_extractor_port import DataExtractorPort
+from ...core.ports.logger_port import LoggerPort
 
-from core.models.raw_data_model import RawDataModel, FetchRawData
+from ...core.models.raw_data_model import RawDataModel, FetchRawData
 
-from core.utils.data_validation_utils import io_data_validation
+from ...core.utils.data_validation_utils import io_data_validation
 
 class ExtractDataRawUsecase():
   def __init__(
@@ -21,7 +21,7 @@ class ExtractDataRawUsecase():
         'include_fields': ['id', 'duplicates', 'summary', 'description', 'status', 'resolution', 'platform', 'product', 'priority', 'severity', 'component', 'type'],
         'product': 'firefox',
       }
-      result = self.data_extractor.get_data_from_source(fields=fields)
+      result = self.data_extractor.get_data_from_source(fields=fields, data=data)
       return result
     except Exception as error:
       error_message = f'ExtractDataRawUsecase.fetch_data: {error}'

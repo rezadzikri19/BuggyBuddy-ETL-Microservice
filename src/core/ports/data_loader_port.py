@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
-from core.models.raw_data_model import RawDataModel
-from core.models.processed_data_model import ProcessedDataModel
+from ...core.models.raw_data_model import RawDataModel
+from ...core.models.processed_data_model import ProcessedDataModel
 
 class DataLoaderPort(ABC):
   @abstractmethod

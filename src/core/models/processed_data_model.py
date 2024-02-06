@@ -1,6 +1,6 @@
 from typing import List, Optional, Any
 
-from core.models.base_model import BaseMatrixModel
+from ...core.models.base_model import BaseMatrixModel
 
 class ProcessedDataModel(BaseMatrixModel):
   def __init__(self, data: Optional[List[List[Any]]] = None, index: Optional[List[Any]] = None) -> None:

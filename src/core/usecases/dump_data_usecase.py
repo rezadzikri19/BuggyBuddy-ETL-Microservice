@@ -1,10 +1,10 @@
-from core.ports.data_loader_port import DataLoaderPort
-from core.ports.logger_port import LoggerPort
+from ...core.ports.data_loader_port import DataLoaderPort
+from ...core.ports.logger_port import LoggerPort
 
-from core.models.raw_data_model import RawDataModel
-from core.models.processed_data_model import ProcessedDataModel
+from ...core.models.raw_data_model import RawDataModel
+from ...core.models.processed_data_model import ProcessedDataModel
 
-from core.utils.data_validation_utils import io_data_validation
+from ...core.utils.data_validation_utils import io_data_validation
 
 class DumpDataUsecase():
   def __init__(

@@ -2,3 +2,6 @@
 
 /notebooks
 /artifacts
+/logs
+
+__pycache__/

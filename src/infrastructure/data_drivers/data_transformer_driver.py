@@ -7,11 +7,11 @@ from nltk.corpus import stopwords
 
 from sentence_transformers import SentenceTransformer
 
-from core.ports.data_transformer_port import DataTransformerPort
-from core.models.transformed_data_model import *
-from core.models.raw_data_model import RawDataModel
+from ...core.ports.data_transformer_port import DataTransformerPort
+from ...core.models.transformed_data_model import *
+from ...core.models.raw_data_model import RawDataModel
 
-from infrastructure.utils.data_utils import dataframe_wrapper
+from ...infrastructure.utils.data_utils import dataframe_wrapper
 
 nltk.download('stopwords')
 nltk.download('punkt')
@@ -66,7 +66,7 @@ class DataTransformerDriver(DataTransformerPort):
   
   
   @dataframe_wrapper
-  def clean_sentences(self, data: CleanSentModel) -> RemoveStopsModel:
+  def remove_stopwords(self, data: CleanSentModel) -> RemoveStopsModel:
     data['text_cleaned'] = data['text'].apply(self.remove_stops)
     return data
   

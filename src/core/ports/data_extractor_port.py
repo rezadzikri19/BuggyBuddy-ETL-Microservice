@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Dict, Any
 
-from core.models.raw_data_model import FetchRawData, RawDataModel
+from ...core.models.raw_data_model import FetchRawData, RawDataModel
 
 class DataExtractorPort(ABC):
   @abstractmethod

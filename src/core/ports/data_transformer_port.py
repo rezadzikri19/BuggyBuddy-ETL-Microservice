@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import List
 
-from core.models.transformed_data_model import *
-from core.models.raw_data_model import RawDataModel
+from ...core.models.transformed_data_model import *
+from ...core.models.raw_data_model import RawDataModel
 
 class DataTransformerPort(ABC):
   @abstractmethod

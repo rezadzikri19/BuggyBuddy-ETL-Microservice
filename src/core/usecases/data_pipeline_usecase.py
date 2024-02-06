@@ -1,10 +1,10 @@
-from core.usecases.extract_data_usecase import ExtractDataRawUsecase
-from core.usecases.transform_data_usecase import TransformDataUsecase
-from core.usecases.dump_data_usecase import DumpDataUsecase
+from ...core.usecases.extract_data_usecase import ExtractDataRawUsecase
+from ...core.usecases.transform_data_usecase import TransformDataUsecase
+from ...core.usecases.dump_data_usecase import DumpDataUsecase
 
-from core.ports.logger_port import LoggerPort
+from ...core.ports.logger_port import LoggerPort
 
-from core.models.base_model import BaseMatrixModel
+from ...core.models.base_model import BaseMatrixModel
 
 class DataPipelineUsecase():
   def __init__(
@@ -20,11 +20,11 @@ class DataPipelineUsecase():
   
   
   def extract_data_pipeline(self) -> BaseMatrixModel:
-    result = self.data_extract_usecase.fetch_data()
+    result = self.data_extract_usecase.fetch_data(data=None)
     result = self.data_extract_usecase.format_data(result)
 
     self.data_dump_usecase.dump_raw_data(result)
-    self.logger.log_info('ETL_PIPELINE [EXTRACT] - SUCCESS')
+    self.logger.log_info('ETL_PIPELINE [EXTRACT] - DONE')
     return result
   
   
@@ -37,17 +37,17 @@ class DataPipelineUsecase():
     result = self.data_transform_usecase.sentence_embedding(result)
     result = self.data_transform_usecase.get_duplicates_to(result)
 
-    self.logger.log_info('ETL_PIPELINE [TRANSFORM] - SUCCESS')
+    self.logger.log_info('ETL_PIPELINE [TRANSFORM] - DONE')
     return result
   
   
   def load_data_pipeline(self, data: BaseMatrixModel) -> None:
     self.data_dump_usecase.dump_processed_data(data)
-    self.logger.log_info('ETL_PIPELINE [LOAD] - SUCCESS')
+    self.logger.log_info('ETL_PIPELINE [LOAD] - DONE')
   
   
   def run_pipeline(self) -> None:
     result = self.extract_data_pipeline()
     result = self.transform_data_pipeline(result)
     self.load_data_pipeline(result)
-    self.logger.log_info('ETL_PIPELINE [ALL] - SUCCESS')
+    self.logger.log_info('ETL_PIPELINE [ALL] - DONE')

@@ -2,7 +2,7 @@ import logging
 import os
 from datetime import datetime
 
-from core.ports.logger_port import LoggerPort
+from ...core.ports.logger_port import LoggerPort
 
 class LoggerDriver(LoggerPort):
   _instance = None
@@ -20,7 +20,7 @@ class LoggerDriver(LoggerPort):
     
     log_file=f'bank_log_{datetime.now().strftime("%Y-%m-%d")}.log'
     curr_dir = os.getcwd()
-    log_path = os.path.join(curr_dir, os.pardir, os.pardir, os.pardir, 'logs', log_file)
+    log_path = os.path.join(curr_dir, 'logs', log_file)
     self.log_path = log_path
     
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')

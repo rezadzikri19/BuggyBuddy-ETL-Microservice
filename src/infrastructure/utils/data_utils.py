@@ -1,5 +1,5 @@
 import pandas as pd
-from core.models.base_model import BaseMatrixModel, BaseArrayModel
+from ...core.models.base_model import BaseMatrixModel, BaseArrayModel
 
 
 def base_matrix_to_dataframe(data_matrix: BaseMatrixModel) -> pd.DataFrame:
@@ -20,21 +20,25 @@ def series_to_base_array(sr_data: pd.Series) -> BaseArrayModel:
 
 def dataframe_wrapper(func):
   def wrapper(self, data: BaseMatrixModel, *args, **kwargs) -> BaseMatrixModel:
-    if data:
+    if data is not None:
       data = base_matrix_to_dataframe(data)
+      
     data = func(self, data=data, *args, **kwargs)
-    if data:
-      data = dataframe_to_base_matrix(data)
+    
+    if data is not None:
+      data = dataframe_to_base_matrix(data)   
     return data
   return wrapper
 
 
 def series_wrapper(func):
   def wrapper(self, data: BaseArrayModel, *args, **kwargs) -> BaseArrayModel:
-    if data:
+    if data is not None:
       data = base_array_to_series(data)
+      
     data = func(self, data=data, *args, **kwargs)
-    if data:
+    
+    if data is not None:
       data = series_to_base_array(data)
     return data
   return wrapper
