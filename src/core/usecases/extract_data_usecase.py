@@ -14,7 +14,7 @@ class ExtractDataRawUsecase():
     self.logger = logger
   
   
-  @io_data_validation(schema_output=RawDataModel())
+  @io_data_validation(schema_output=FetchRawData())
   def fetch_data(self, data: None = None) -> FetchRawData:
     try:
       fields = {

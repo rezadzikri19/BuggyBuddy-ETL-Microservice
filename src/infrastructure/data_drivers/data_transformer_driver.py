@@ -2,39 +2,39 @@ import re
 from typing import List, Any
 
 import nltk
-import pandas as pd
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 
 from sentence_transformers import SentenceTransformer
 
 from core.ports.data_transformer_port import DataTransformerPort
-from core.models.base_model import BaseMatrixModel
+from core.models.transformed_data_model import *
+from core.models.raw_data_model import RawDataModel
 
 from infrastructure.utils.data_utils import dataframe_wrapper
 
 nltk.download('stopwords')
 nltk.download('punkt')
 
-class DataTransformerDriver(DataTransformerPort):
+class DataTransformerDriver(DataTransformerPort):  
   def __init__(self) -> None:
     pass
 
   @dataframe_wrapper
-  def drop_features(self, data: pd.DataFrame, features_to_drop: List[Any]) -> pd.DataFrame:
+  def drop_features(self, data: RawDataModel, features_to_drop: List[Any]) -> DropFeatsModel:
     data = data.drop(columns=features_to_drop, axis=1)
     return data
   
   
   @dataframe_wrapper
-  def remove_duplicates(self, data: pd.DataFrame, keep: str) -> pd.DataFrame:
+  def remove_duplicates(self, data: DropFeatsModel, keep: str = 'first') -> RemoveDuplicatesModel:
     columns = list(data.columns)
     data = data.drop_duplicates(subset=columns, keep=keep)
     return data
 
 
   @dataframe_wrapper
-  def aggregate_text_features(self, data: pd.DataFrame) -> pd.DataFrame:
+  def aggregate_text_features(self, data: RemoveDuplicatesModel) -> AggregateTextModel:
     data['text'] = data['platform'] + ' ' + data['summary'] + ' ' + data['description']
     data = data.drop(columns=['platform', 'summary', 'description'], axis=1)
     return data
@@ -52,7 +52,7 @@ class DataTransformerDriver(DataTransformerPort):
     return text
   
   
-  def remove_stopwords(text: str):
+  def remove_stops(text: str):
     stop_words = set(stopwords.words('english'))
     words = word_tokenize(text)
     filtered_words = [word for word in words if word not in stop_words]
@@ -60,13 +60,19 @@ class DataTransformerDriver(DataTransformerPort):
   
   
   @dataframe_wrapper
-  def clean_sentences(self, data: pd.DataFrame) -> pd.DataFrame:
+  def clean_sentences(self, data: AggregateTextModel) -> CleanSentModel:
     data['text_cleaned'] = data['text'].apply(self.remove_special_chars)
     return data
   
   
   @dataframe_wrapper
-  def sent_embedding(self, data: pd.DataFrame) -> pd.DataFrame:
+  def clean_sentences(self, data: CleanSentModel) -> RemoveStopsModel:
+    data['text_cleaned'] = data['text'].apply(self.remove_stops)
+    return data
+  
+  
+  @dataframe_wrapper
+  def sent_embedding(self, data: RemoveStopsModel) -> SentEmbeddingModel:
     sent_embd_model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
     data['text_embedded'] = data['text_cleaned'].apply(sent_embd_model.encode)
     data = data.drop(columns=['text_cleaned'])
@@ -74,7 +80,7 @@ class DataTransformerDriver(DataTransformerPort):
     
   
   @dataframe_wrapper
-  def get_duplicates_to(self, data: pd.DataFrame) -> pd.DataFrame:
+  def get_duplicates_to(self, data: SentEmbeddingModel) -> GetDuplicatesToModel:
     duplicated = data['duplicates'].apply(lambda x: len(x)).sort_values(ascending=False)
     duplicated = duplicated[duplicated > 0]
     

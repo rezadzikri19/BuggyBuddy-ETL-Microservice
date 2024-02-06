@@ -19,22 +19,22 @@ def series_to_base_array(sr_data: pd.Series) -> BaseArrayModel:
 
 
 def dataframe_wrapper(func):
-    def wrapper(self, data: BaseMatrixModel, *args, **kwargs) -> BaseMatrixModel:
-        if data: data = base_matrix_to_dataframe(data)
-
-        data = func(self, data=data, *args, **kwargs)
-        
-        if data: data = dataframe_to_base_matrix(data)
-        return data
-    return wrapper
+  def wrapper(self, data: BaseMatrixModel, *args, **kwargs) -> BaseMatrixModel:
+    if data:
+      data = base_matrix_to_dataframe(data)
+    data = func(self, data=data, *args, **kwargs)
+    if data:
+      data = dataframe_to_base_matrix(data)
+    return data
+  return wrapper
 
 
 def series_wrapper(func):
-    def wrapper(self, data: BaseArrayModel, *args, **kwargs) -> BaseArrayModel:
-        if data: data = base_array_to_series(data)
-          
-        data = func(self, data=data, *args, **kwargs)
-        
-        if data: data = series_to_base_array(data)
-        return data
-    return wrapper
+  def wrapper(self, data: BaseArrayModel, *args, **kwargs) -> BaseArrayModel:
+    if data:
+      data = base_array_to_series(data)
+    data = func(self, data=data, *args, **kwargs)
+    if data:
+      data = series_to_base_array(data)
+    return data
+  return wrapper

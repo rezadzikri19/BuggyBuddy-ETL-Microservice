@@ -10,7 +10,7 @@ class DataTransformerPort(ABC):
     pass
   
   @abstractmethod
-  def remove_duplicates(self, data: DropFeatsModel, keep: str) -> RemoveDuplicatesModel:
+  def remove_duplicates(self, data: DropFeatsModel, keep: str = 'first') -> RemoveDuplicatesModel:
     pass
   
   @abstractmethod

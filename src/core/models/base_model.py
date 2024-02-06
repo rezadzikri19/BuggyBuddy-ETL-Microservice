@@ -19,7 +19,8 @@ class BaseMatrixModel:
   
   
   def _validate_size(self) -> None:
-    if not self.data: return
+    if not self.data:
+      return
 
     result = all(len(row) == len(self.data[0]) for row in self.data)
     
@@ -33,7 +34,8 @@ class BaseMatrixModel:
   
   
   def _validate_types(self) -> None:
-    if not self.data: return
+    if not self.data:
+      return
 
     transposed = list(map(list, zip(*self.data)))
     transposed = [sorted(col, key=lambda item: (item is None, item)) for col in transposed]
@@ -73,12 +75,16 @@ class BaseArrayModel:
   
   
   def _validate_size(self) -> None:
-    if not self.data: return
+    if not self.data:
+      return
+    
     self.size = (len(self.data), )
   
   
   def _validate_type(self, data: List[Any]) -> None:
-    if not self.data: return
+    if not self.data:
+      return
+    
     result = all(type(item) == type(data[0]) for item in data)
     
     if not result:
