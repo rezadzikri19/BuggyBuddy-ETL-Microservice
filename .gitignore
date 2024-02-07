@@ -1,11 +1,12 @@
 .env
 
-/build
-/*.egg-info
-/notebooks
-/artifacts
-/logs
-/caches
-/venv
+**/build
+**/*.egg-info
+**/notebooks
+**/artifacts
+**/logs
+**/caches
+**/venv
+**/docker
 
-__pycache__/
+**/__pycache__

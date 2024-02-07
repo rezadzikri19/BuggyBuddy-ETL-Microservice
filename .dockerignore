@@ -1,0 +1,16 @@
+**/__pycache__
+**/venv
+**/.dockerignore
+**/.gitignore
+**/docker-compose*
+**/compose*
+**/Dockerfile*
+**/*.egg-info
+**/notebooks
+**/artifacts
+**/logs
+**/caches
+**/build
+**/docker
+
+README.md

@@ -29,7 +29,7 @@ class LoggerDriver(LoggerPort):
     if not os.path.exists(log_dir):
       os.makedirs(log_dir)
     
-    log_file=f'bank_log_{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.log'
+    log_file=f'bank_log_{datetime.now().strftime("%Y-%m-%d")}.log'
     
     log_path = os.path.join(log_dir, log_file)
     self.log_path = log_path
