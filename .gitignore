@@ -1,8 +1,11 @@
 .env
 
+/build
+/*.egg-info
 /notebooks
 /artifacts
 /logs
 /caches
+/venv
 
 __pycache__/
