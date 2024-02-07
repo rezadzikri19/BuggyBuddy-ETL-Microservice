@@ -25,7 +25,7 @@ class ExtractDataRawUsecase():
       return result
     except Exception as error:
       error_message = f'ExtractDataRawUsecase.fetch_data: {error}'
-      self.logger.log_error(error_message)
+      self.logger.log_error(error_message, error)
   
   
   @io_data_validation(schema_input=FetchRawData(), schema_output=RawDataModel())
@@ -35,5 +35,5 @@ class ExtractDataRawUsecase():
       return result
     except Exception as error:
       error_message = f'ExtractDataRawUsecase.format_data: {error}'
-      self.logger.log_error(error_message)
+      self.logger.log_error(error_message, error)
 

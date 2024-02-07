@@ -1,6 +1,11 @@
 import logging
 import os
+import sys
+import traceback
+import linecache
+
 from datetime import datetime
+from typing import Optional
 
 from ...core.ports.logger_port import LoggerPort
 
@@ -33,13 +38,26 @@ class LoggerDriver(LoggerPort):
     console_handler.setFormatter(formatter)
     self.logger.addHandler(console_handler)
 
-
-  def log_info(self, message: str) -> None:
+  def log_info(self, message: str = 'None') -> None:
     self.logger.info(message)
 
 
-  def log_error(self, message: str) -> None:
-    self.logger.error(message)
+  def log_error(self, message: str = 'None', error: Optional[Exception] = None) -> None:
+    trace_error = 'None'
+    
+    if error is not None:
+      tb = traceback.extract_tb(error.__traceback__)
+      
+      traces = []
+      for frame in tb:
+        code_snippet = linecache.getline(frame.filename, frame.lineno)
+        trace = f'>>> file: {frame.filename}, line: {frame.lineno}\n--- {code_snippet.strip()}'
+        traces.append(trace)
+        
+      trace_error = '\n'.join(traces)
+      
+    self.logger.error(f'{message}\n{trace_error}')
+    sys.exit(1)
 
 
   def close_logger(self) -> None:

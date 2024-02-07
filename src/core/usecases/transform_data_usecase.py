@@ -24,7 +24,7 @@ class TransformDataUsecase:
       return result
     except Exception as error:
       error_message = f'TransformDataUsecase.drop_features: {error}'
-      self.logger.log_error(error_message)
+      self.logger.log_error(error_message, error)
   
   
   @io_data_validation(schema_input=DropFeatsModel(), schema_output=RemoveDuplicatesModel())
@@ -34,7 +34,7 @@ class TransformDataUsecase:
       return result
     except Exception as error:
       error_message = f'TransformDataUsecase.remove_duplicates: {error}'
-      self.logger.log_error(error_message)
+      self.logger.log_error(error_message, error)
 
 
   @io_data_validation(schema_input=RemoveDuplicatesModel(), schema_output=AggregateTextModel())
@@ -44,7 +44,7 @@ class TransformDataUsecase:
       return result
     except Exception as error:
       error_message = f'TransformDataUsecase.aggregate_text_features: {error}'
-      self.logger.log_error(error_message)
+      self.logger.log_error(error_message, error)
 
 
   @io_data_validation(schema_input=AggregateTextModel(), schema_output=CleanSentModel())
@@ -54,7 +54,7 @@ class TransformDataUsecase:
       return result
     except Exception as error:
       error_message = f'TransformDataUsecase.clean_sentences: {error}'
-      self.logger.log_error(error_message)
+      self.logger.log_error(error_message, error)
 
 
   @io_data_validation(schema_input=CleanSentModel(), schema_output=RemoveStopsModel())
@@ -64,7 +64,7 @@ class TransformDataUsecase:
       return result
     except Exception as error:
       error_message = f'TransformDataUsecase.remove_stopwords: {error}'
-      self.logger.log_error(error_message)
+      self.logger.log_error(error_message, error)
   
   
   @io_data_validation(schema_input=RemoveStopsModel(), schema_output=SentEmbeddingModel())
@@ -74,7 +74,7 @@ class TransformDataUsecase:
       return result
     except Exception as error:
       error_message = f'TransformDataUsecase.sentence_embedding: {error}'
-      self.logger.log_error(error_message)
+      self.logger.log_error(error_message, error)
   
   
   @io_data_validation(schema_input=SentEmbeddingModel(), schema_output=GetDuplicatesToModel())
@@ -84,4 +84,4 @@ class TransformDataUsecase:
       return result
     except Exception as error:
       error_message = f'TransformDataUsecase.get_duplicates_to: {error}'
-      self.logger.log_error(error_message)
+      self.logger.log_error(error_message, error)

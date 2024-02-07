@@ -28,7 +28,7 @@ class DataTransformerDriver(DataTransformerPort):
       return data
     except Exception as error:
       error_message = f'DataTransformerDriver.drop_features: {error}'
-      self.logger.log_error(error_message)
+      self.logger.log_error(error_message, error)
   
   
   @dataframe_wrapper
@@ -39,7 +39,7 @@ class DataTransformerDriver(DataTransformerPort):
       return data
     except Exception as error:
       error_message = f'DataTransformerDriver.remove_duplicates: {error}'
-      self.logger.log_error(error_message)
+      self.logger.log_error(error_message, error)
 
 
   @dataframe_wrapper
@@ -50,7 +50,7 @@ class DataTransformerDriver(DataTransformerPort):
       return data
     except Exception as error:
       error_message = f'DataTransformerDriver.aggregate_text_features: {error}'
-      self.logger.log_error(error_message)
+      self.logger.log_error(error_message, error)
   
   
   def remove_special_chars(self, text: str):
@@ -79,7 +79,7 @@ class DataTransformerDriver(DataTransformerPort):
       return data
     except Exception as error:
       error_message = f'DataTransformerDriver.clean_sentences: {error}'
-      self.logger.log_error(error_message)
+      self.logger.log_error(error_message, error)
   
   
   @dataframe_wrapper
@@ -89,7 +89,7 @@ class DataTransformerDriver(DataTransformerPort):
       return data
     except Exception as error:
       error_message = f'DataTransformerDriver.remove_stopwords: {error}'
-      self.logger.log_error(error_message)
+      self.logger.log_error(error_message, error)
   
   
   @dataframe_wrapper
@@ -101,7 +101,7 @@ class DataTransformerDriver(DataTransformerPort):
       return data
     except Exception as error:
       error_message = f'DataTransformerDriver.sent_embedding: {error}'
-      self.logger.log_error(error_message)
+      self.logger.log_error(error_message, error)
     
   
   @dataframe_wrapper
@@ -121,5 +121,5 @@ class DataTransformerDriver(DataTransformerPort):
       return data
     except Exception as error:
       error_message = f'DataTransformerDriver.get_duplicates_to: {error}'
-      self.logger.log_error(error_message)
+      self.logger.log_error(error_message, error)
     

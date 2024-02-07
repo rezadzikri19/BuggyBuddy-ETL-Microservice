@@ -42,7 +42,7 @@ class DataExtractorDriver(DataExtractorPort):
       return data
     except Exception as error:
       error_message = f'DataExtractorDriver.get_data_from_source: {error}'
-      self.logger.log_error(error_message)
+      self.logger.log_error(error_message, error)
         
   
   @dataframe_wrapper
@@ -56,4 +56,4 @@ class DataExtractorDriver(DataExtractorPort):
       return data
     except Exception as error:
       error_message = f'DataExtractorDriver.format_raw_data: {error}'
-      self.logger.log_error(error_message)
+      self.logger.log_error(error_message, error)

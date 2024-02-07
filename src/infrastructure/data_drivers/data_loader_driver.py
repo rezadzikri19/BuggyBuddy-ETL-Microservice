@@ -19,7 +19,7 @@ class DataLoaderDriver(DataLoaderPort):
       data.to_parquet(data_path)
     except Exception as error:
       error_message = f'DataLoaderDriver.dump_raw_data: {error}'
-      self.logger.log_error(error_message)
+      self.logger.log_error(error_message, error)
 
   @dataframe_wrapper
   def dump_processed_data(self, data: ProcessedDataModel) -> None:
@@ -29,4 +29,4 @@ class DataLoaderDriver(DataLoaderPort):
       data.to_parquet(data_path)
     except Exception as error:
       error_message = f'DataLoaderDriver.dump_processed_data: {error}'
-      self.logger.log_error(error_message)
+      self.logger.log_error(error_message, error)

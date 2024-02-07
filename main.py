@@ -35,8 +35,7 @@ def main():
   
   result = data_pipeline_usecase.extract_data_pipeline()
   result = data_pipeline_usecase.transform_data_pipeline(result)
+  result = data_pipeline_usecase.load_data_pipeline(result)
   
-  print(result)
-
 if __name__ == "__main__":
   main()
