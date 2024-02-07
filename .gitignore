@@ -3,5 +3,6 @@
 /notebooks
 /artifacts
 /logs
+/caches
 
 __pycache__/

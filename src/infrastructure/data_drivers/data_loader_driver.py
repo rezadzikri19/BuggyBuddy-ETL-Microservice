@@ -1,4 +1,5 @@
 import os
+import datetime
 
 from ...core.ports.data_loader_port import DataLoaderPort
 from ...core.models.raw_data_model import RawDataModel
@@ -15,7 +16,14 @@ class DataLoaderDriver(DataLoaderPort):
   def dump_raw_data(self, data: RawDataModel) -> None:
     try:
       curr_dir = os.getcwd()
-      data_path = os.path.join(curr_dir, 'artifacts', 'data', 'raw_data.parquet')
+      data_dir = os.path.join(curr_dir, 'artifacts', 'raw_data')
+      
+      if not os.path.exists(data_dir):
+        os.makedirs(data_dir)
+        
+      file_name = f'{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}_raw_data.parquet'
+      
+      data_path = os.path.join(data_dir, file_name)      
       data.to_parquet(data_path)
     except Exception as error:
       error_message = f'DataLoaderDriver.dump_raw_data: {error}'
@@ -25,7 +33,14 @@ class DataLoaderDriver(DataLoaderPort):
   def dump_processed_data(self, data: ProcessedDataModel) -> None:
     try:
       curr_dir = os.getcwd()
-      data_path = os.path.join(curr_dir, 'artifacts', 'data', 'processed_data.parquet')
+      data_dir = os.path.join(curr_dir, 'artifacts', 'processed_data')
+      
+      if not os.path.exists(data_dir):
+        os.makedirs(data_dir)
+        
+      file_name = f'{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}_processed_data.parquet'
+      
+      data_path = os.path.join(data_dir, file_name)  
       data.to_parquet(data_path)
     except Exception as error:
       error_message = f'DataLoaderDriver.dump_processed_data: {error}'

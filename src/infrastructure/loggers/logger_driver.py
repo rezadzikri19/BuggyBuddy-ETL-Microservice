@@ -23,9 +23,15 @@ class LoggerDriver(LoggerPort):
     self.logger = logging.getLogger(__name__)
     self.logger.setLevel(logging.DEBUG)
     
-    log_file=f'bank_log_{datetime.now().strftime("%Y-%m-%d")}.log'
     curr_dir = os.getcwd()
-    log_path = os.path.join(curr_dir, 'logs', log_file)
+    log_dir = os.path.join(curr_dir, 'logs')
+      
+    if not os.path.exists(log_dir):
+      os.makedirs(log_dir)
+    
+    log_file=f'bank_log_{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.log'
+    
+    log_path = os.path.join(log_dir, log_file)
     self.log_path = log_path
     
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
