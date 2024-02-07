@@ -1,5 +1,5 @@
 import os
-import datetime
+from datetime import datetime
 
 from ...core.ports.data_loader_port import DataLoaderPort
 from ...core.models.raw_data_model import RawDataModel

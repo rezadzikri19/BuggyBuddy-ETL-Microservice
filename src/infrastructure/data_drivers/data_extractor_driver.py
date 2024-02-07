@@ -24,8 +24,8 @@ class DataExtractorDriver(DataExtractorPort):
   def get_data_from_source(self, data: None, fields: Dict[str, Any]) -> FetchRawData:
     try:
       base_url = 'https://bugzilla.mozilla.org/rest/bug'
-      n_fetch = 50
-      limit = 5000
+      n_fetch = 5
+      limit = 10
 
       params = [{'offset': i * limit, 'limit': limit, **fields} for i in range(n_fetch)]
       
