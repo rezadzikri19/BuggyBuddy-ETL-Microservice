@@ -13,10 +13,10 @@ class LoggerDriver(LoggerPort):
   _instance = None
   
   def __new__(cls):
-      if not cls._instance:
-        cls._instance = super(LoggerDriver, cls).__new__(cls)
-        cls._instance._initialize()
-      return cls._instance
+    if not cls._instance:
+      cls._instance = super(LoggerDriver, cls).__new__(cls)
+      cls._instance._initialize()
+    return cls._instance
 
 
   def _initialize(self) -> None:

@@ -14,8 +14,8 @@ from ...core.ports.logger_port import LoggerPort
 
 from ...infrastructure.utils.data_utils import dataframe_wrapper
 
-nltk.download('stopwords')
-nltk.download('punkt')
+nltk.download('stopwords', quiet=True)
+nltk.download('punkt', quiet=True)
 
 class DataTransformerDriver(DataTransformerPort):  
   def __init__(self, logger: LoggerPort) -> None:
