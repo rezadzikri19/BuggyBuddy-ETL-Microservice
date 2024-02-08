@@ -3,7 +3,7 @@ from ...core.models.base_model import BaseMatrixModel
 
 def validate_data(data: BaseMatrixModel, schema: BaseMatrixModel) -> None:
   if list(data.columns) != schema.columns:
-    Exception('DataValidationUsecase.validate_data: invalid data!')
+    Exception('Utils.validate_data: invalid data!')
 
 
 def io_data_validation(schema_input: BaseMatrixModel = None, schema_output: BaseMatrixModel = None):

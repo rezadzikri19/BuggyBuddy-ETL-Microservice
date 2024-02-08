@@ -6,7 +6,7 @@ from ..models.processed_data_model import ProcessedDataModel
 
 from ..utils.data_validation_utils import io_data_validation
 
-class DumpDataService():
+class DumpDataUsecase():
   def __init__(
       self,
       data_loader: DataLoaderPort,
@@ -20,7 +20,7 @@ class DumpDataService():
     try:
       self.data_loader.dump_raw_data(data)
     except Exception as error:
-      error_message = f'DumpDataService.dump_raw_data: {error}'
+      error_message = f'DumpDataUsecase.dump_raw_data: {error}'
       self.logger.log_error(error_message, error)
         
   
@@ -29,5 +29,5 @@ class DumpDataService():
     try:
       self.data_loader.dump_processed_data(data)
     except Exception as error:
-      error_message = f'DumpDataService.dump_processed_data: {error}'
+      error_message = f'DumpDataUsecase.dump_processed_data: {error}'
       self.logger.log_error(error_message, error)

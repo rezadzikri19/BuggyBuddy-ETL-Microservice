@@ -1,6 +1,6 @@
-from ...core.services.extract_data_service import ExtractDataRawService
-from ...core.services.transform_data_service import TransformDataService
-from ...core.services.dump_data_service import DumpDataService
+from ...core.usecases.extract_data_usecase import ExtractDataRawUsecase
+from ...core.usecases.transform_data_usecase import TransformDataUsecase
+from ...core.usecases.dump_data_usecase import DumpDataUsecase
 
 from ...core.ports.logger_port import LoggerPort
 
@@ -9,9 +9,9 @@ from ...core.models.base_model import BaseMatrixModel
 class DataPipelineUsecase():
   def __init__(
       self,
-      data_extract_usecase: ExtractDataRawService,
-      data_transform_usecase: TransformDataService,
-      data_dump_usecase: DumpDataService,
+      data_extract_usecase: ExtractDataRawUsecase,
+      data_transform_usecase: TransformDataUsecase,
+      data_dump_usecase: DumpDataUsecase,
       logger: LoggerPort) -> None:
     self.data_extract_usecase = data_extract_usecase
     self.data_transform_usecase = data_transform_usecase

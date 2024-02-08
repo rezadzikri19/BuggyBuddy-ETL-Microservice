@@ -5,7 +5,7 @@ from ..models.raw_data_model import RawDataModel, FetchRawData
 
 from ..utils.data_validation_utils import io_data_validation
 
-class ExtractDataRawService():
+class ExtractDataRawUsecase():
   def __init__(
       self,
       data_extractor: DataExtractorPort,
@@ -24,7 +24,7 @@ class ExtractDataRawService():
       result = self.data_extractor.get_data_from_source(fields=fields, data=data)
       return result
     except Exception as error:
-      error_message = f'ExtractDataRawService.fetch_data: {error}'
+      error_message = f'ExtractDataRawUsecase.fetch_data: {error}'
       self.logger.log_error(error_message, error)
   
   
@@ -34,6 +34,6 @@ class ExtractDataRawService():
       result = self.data_extractor.format_raw_data(data)
       return result
     except Exception as error:
-      error_message = f'ExtractDataRawService.format_data: {error}'
+      error_message = f'ExtractDataRawUsecase.format_data: {error}'
       self.logger.log_error(error_message, error)
 
