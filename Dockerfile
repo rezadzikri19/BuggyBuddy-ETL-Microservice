@@ -1,6 +1,12 @@
 # syntax=docker/dockerfile:1
 
-FROM python:3.11.7-alpine
+FROM python:3.10-alpine3.18
+
+RUN apk update && \
+  apk add --no-cache bash && \
+  apk add --no-cache --virtual .build-deps gcc musl-dev linux-headers && \
+  apk add --no-cache libffi-dev openssl-dev && \
+  apk add --no-cache rust cargo
 
 WORKDIR /app
 
@@ -8,12 +14,12 @@ COPY . /app
 
 COPY requirements.txt /app
 
-RUN pip install .
+COPY *.sh /app
 
-COPY run.sh /app
+RUN chmod +x *.sh
+
+ENTRYPOINT ["./entry_point.sh"]
 
 CMD [ "./run.sh" ]
-
-# RUN chmod +x run.sh
 
 # RUN echo "* * * * * /app/run.sh >> /app/logs/cron.log 2>&1" | crontab -
