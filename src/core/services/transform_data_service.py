@@ -1,12 +1,12 @@
-from ...core.ports.data_transformer_port import DataTransformerPort
-from ...core.ports.logger_port import LoggerPort
+from ..ports.data_transformer_port import DataTransformerPort
+from ..ports.logger_port import LoggerPort
 
-from ...core.utils.data_validation_utils import io_data_validation
+from ..utils.data_validation_utils import io_data_validation
 
-from ...core.models.raw_data_model import RawDataModel
-from ...core.models.transformed_data_model import *
+from ..models.raw_data_model import RawDataModel
+from ..models.transformed_data_model import *
 
-class TransformDataUsecase:
+class TransformDataService:
   def __init__(
       self,
       data_transformer: DataTransformerPort,
@@ -23,7 +23,7 @@ class TransformDataUsecase:
       result = self.data_transformer.drop_features(data, features_to_drop=features_to_drop)
       return result
     except Exception as error:
-      error_message = f'TransformDataUsecase.drop_features: {error}'
+      error_message = f'TransformDataService.drop_features: {error}'
       self.logger.log_error(error_message, error)
   
   
@@ -33,7 +33,7 @@ class TransformDataUsecase:
       result = self.data_transformer.remove_duplicates(data, keep=keep)
       return result
     except Exception as error:
-      error_message = f'TransformDataUsecase.remove_duplicates: {error}'
+      error_message = f'TransformDataService.remove_duplicates: {error}'
       self.logger.log_error(error_message, error)
 
 
@@ -43,7 +43,7 @@ class TransformDataUsecase:
       result = self.data_transformer.aggregate_text_features(data)
       return result
     except Exception as error:
-      error_message = f'TransformDataUsecase.aggregate_text_features: {error}'
+      error_message = f'TransformDataService.aggregate_text_features: {error}'
       self.logger.log_error(error_message, error)
 
 
@@ -53,7 +53,7 @@ class TransformDataUsecase:
       result = self.data_transformer.clean_sentences(data)
       return result
     except Exception as error:
-      error_message = f'TransformDataUsecase.clean_sentences: {error}'
+      error_message = f'TransformDataService.clean_sentences: {error}'
       self.logger.log_error(error_message, error)
 
 
@@ -63,7 +63,7 @@ class TransformDataUsecase:
       result = self.data_transformer.remove_stopwords(data)
       return result
     except Exception as error:
-      error_message = f'TransformDataUsecase.remove_stopwords: {error}'
+      error_message = f'TransformDataService.remove_stopwords: {error}'
       self.logger.log_error(error_message, error)
   
   
@@ -73,7 +73,7 @@ class TransformDataUsecase:
       result = self.data_transformer.sent_embedding(data)
       return result
     except Exception as error:
-      error_message = f'TransformDataUsecase.sentence_embedding: {error}'
+      error_message = f'TransformDataService.sentence_embedding: {error}'
       self.logger.log_error(error_message, error)
   
   
@@ -83,5 +83,5 @@ class TransformDataUsecase:
       result = self.data_transformer.get_duplicates_to(data)
       return result
     except Exception as error:
-      error_message = f'TransformDataUsecase.get_duplicates_to: {error}'
+      error_message = f'TransformDataService.get_duplicates_to: {error}'
       self.logger.log_error(error_message, error)

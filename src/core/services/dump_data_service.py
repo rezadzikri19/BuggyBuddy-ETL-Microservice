@@ -1,12 +1,12 @@
-from ...core.ports.data_loader_port import DataLoaderPort
-from ...core.ports.logger_port import LoggerPort
+from ..ports.data_loader_port import DataLoaderPort
+from ..ports.logger_port import LoggerPort
 
-from ...core.models.raw_data_model import RawDataModel
-from ...core.models.processed_data_model import ProcessedDataModel
+from ..models.raw_data_model import RawDataModel
+from ..models.processed_data_model import ProcessedDataModel
 
-from ...core.utils.data_validation_utils import io_data_validation
+from ..utils.data_validation_utils import io_data_validation
 
-class DumpDataUsecase():
+class DumpDataService():
   def __init__(
       self,
       data_loader: DataLoaderPort,
@@ -20,7 +20,7 @@ class DumpDataUsecase():
     try:
       self.data_loader.dump_raw_data(data)
     except Exception as error:
-      error_message = f'DumpDataUsecase.dump_raw_data: {error}'
+      error_message = f'DumpDataService.dump_raw_data: {error}'
       self.logger.log_error(error_message, error)
         
   
@@ -29,5 +29,5 @@ class DumpDataUsecase():
     try:
       self.data_loader.dump_processed_data(data)
     except Exception as error:
-      error_message = f'DumpDataUsecase.dump_processed_data: {error}'
+      error_message = f'DumpDataService.dump_processed_data: {error}'
       self.logger.log_error(error_message, error)

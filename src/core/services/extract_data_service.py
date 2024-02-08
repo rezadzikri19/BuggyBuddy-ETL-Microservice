@@ -1,11 +1,11 @@
-from ...core.ports.data_extractor_port import DataExtractorPort
-from ...core.ports.logger_port import LoggerPort
+from ..ports.data_extractor_port import DataExtractorPort
+from ..ports.logger_port import LoggerPort
 
-from ...core.models.raw_data_model import RawDataModel, FetchRawData
+from ..models.raw_data_model import RawDataModel, FetchRawData
 
-from ...core.utils.data_validation_utils import io_data_validation
+from ..utils.data_validation_utils import io_data_validation
 
-class ExtractDataRawUsecase():
+class ExtractDataRawService():
   def __init__(
       self,
       data_extractor: DataExtractorPort,
@@ -24,7 +24,7 @@ class ExtractDataRawUsecase():
       result = self.data_extractor.get_data_from_source(fields=fields, data=data)
       return result
     except Exception as error:
-      error_message = f'ExtractDataRawUsecase.fetch_data: {error}'
+      error_message = f'ExtractDataRawService.fetch_data: {error}'
       self.logger.log_error(error_message, error)
   
   
@@ -34,6 +34,6 @@ class ExtractDataRawUsecase():
       result = self.data_extractor.format_raw_data(data)
       return result
     except Exception as error:
-      error_message = f'ExtractDataRawUsecase.format_data: {error}'
+      error_message = f'ExtractDataRawService.format_data: {error}'
       self.logger.log_error(error_message, error)
 
