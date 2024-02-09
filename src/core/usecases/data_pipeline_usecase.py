@@ -20,29 +20,30 @@ class DataPipelineUsecase():
   
   
   def extract_data_pipeline(self) -> BaseMatrixModel:
-    result = self.data_extract_usecase.fetch_data(data=None)
-    result = self.data_extract_usecase.format_data(result)
-
+    result = self.data_extract_usecase.extract_data(data=None)
     self.data_dump_usecase.dump_raw_data(result)
+    
     self.logger.log_info('ETL_PIPELINE [EXTRACT] - DONE')
     return result
   
   
   def transform_data_pipeline(self, data: BaseMatrixModel) -> BaseMatrixModel:
-    result = self.data_transform_usecase.remove_duplicates(data, keep='first')
-    result = self.data_transform_usecase.get_duplicates_to(result)
-
+    result = self.data_transform_usecase.transform_data(data)
+    self.data_dump_usecase.dump_processed_data(result)
+    
     self.logger.log_info('ETL_PIPELINE [TRANSFORM] - DONE')
     return result
   
   
-  def load_data_pipeline(self, data: BaseMatrixModel) -> None:
-    self.data_dump_usecase.dump_processed_data(data)
+  def load_data_pipeline(self, raw_data: BaseMatrixModel, processed_data: BaseMatrixModel) -> None:
+    self.data_dump_usecase.dump_raw_data(raw_data)
+    self.data_dump_usecase.dump_processed_data(processed_data)
     self.logger.log_info('ETL_PIPELINE [LOAD] - DONE')
   
   
   def run_pipeline(self) -> None:
-    result = self.extract_data_pipeline()
-    result = self.transform_data_pipeline(result)
-    self.load_data_pipeline(result)
+    raw_data = self.extract_data_pipeline()
+    processed_data = self.transform_data_pipeline(raw_data)
+    
+    self.load_data_pipeline(raw_data, processed_data)
     self.logger.log_info('ETL_PIPELINE [ALL] - DONE')
