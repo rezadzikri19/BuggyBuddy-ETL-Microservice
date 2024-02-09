@@ -22,9 +22,7 @@ def main():
   dump_data_service = DumpDataUsecase(data_loader_driver, logger_driver)
   data_pipeline_usecase = DataPipelineUsecase(extract_data_service, transform_data_service, dump_data_service, logger_driver)
   
-  result = data_pipeline_usecase.extract_data_pipeline()
-  result = data_pipeline_usecase.transform_data_pipeline(result)
-  result = data_pipeline_usecase.load_data_pipeline(result)
-  
+  data_pipeline_usecase.run_pipeline()
+
 if __name__ == "__main__":
   main()

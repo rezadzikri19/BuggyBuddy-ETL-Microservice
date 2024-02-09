@@ -29,12 +29,7 @@ class DataPipelineUsecase():
   
   
   def transform_data_pipeline(self, data: BaseMatrixModel) -> BaseMatrixModel:
-    result = self.data_transform_usecase.drop_unused_features(data)
-    result = self.data_transform_usecase.remove_duplicates(result, keep='first')
-    result = self.data_transform_usecase.aggregate_text_features(result)
-    result = self.data_transform_usecase.clean_sentences(result)
-    result = self.data_transform_usecase.remove_stopwords(result)
-    result = self.data_transform_usecase.sentence_embedding(result)
+    result = self.data_transform_usecase.remove_duplicates(data, keep='first')
     result = self.data_transform_usecase.get_duplicates_to(result)
 
     self.logger.log_info('ETL_PIPELINE [TRANSFORM] - DONE')

@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 from ...core.models.raw_data_model import RawDataModel
-from ...core.models.processed_data_model import ProcessedDataModel
+from ...core.models.transformed_data_model import TransformedDataModel
 
 class DataLoaderPort(ABC):
   @abstractmethod
@@ -9,5 +9,5 @@ class DataLoaderPort(ABC):
     pass
   
   @abstractmethod
-  def dump_processed_data(self, data: ProcessedDataModel) -> None:
+  def dump_processed_data(self, data: TransformedDataModel) -> None:
     pass

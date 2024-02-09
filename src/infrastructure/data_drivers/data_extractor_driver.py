@@ -2,8 +2,9 @@ import concurrent.futures
 from typing import Any, Dict
 
 from ...core.ports.data_extractor_port import DataExtractorPort
-from ...core.models.raw_data_model import RawDataModel, FetchRawData
+from ...core.models.raw_data_model import RawDataModel
 from ...core.ports.logger_port import LoggerPort
+from ...core.dtos.data_extract_dto import FetchRawDataDTO
 
 from ...infrastructure.utils.data_utils import dataframe_wrapper
 
@@ -21,7 +22,7 @@ class DataExtractorDriver(DataExtractorPort):
   
   
   @dataframe_wrapper
-  def get_data_from_source(self, data: None, fields: Dict[str, Any]) -> FetchRawData:
+  def get_data_from_source(self, data: None, fields: Dict[str, Any]) -> FetchRawDataDTO:
     try:
       base_url = 'https://bugzilla.mozilla.org/rest/bug'
       n_fetch = 5
@@ -46,7 +47,7 @@ class DataExtractorDriver(DataExtractorPort):
         
   
   @dataframe_wrapper
-  def format_raw_data(self, data: FetchRawData) -> RawDataModel:
+  def format_raw_data(self, data: FetchRawDataDTO) -> RawDataModel:
     try:
       model_columns = list(RawDataModel().columns.keys())
       data_columns = ['id', 'type', 'status', 'product', 'component', 'platform', 'summary', 'description', 'resolution', 'severity', 'priority', 'duplicates']

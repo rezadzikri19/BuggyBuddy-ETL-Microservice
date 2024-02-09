@@ -1,10 +1,10 @@
-from ..ports.data_transformer_port import DataTransformerPort
-from ..ports.logger_port import LoggerPort
+from ...core.ports.data_transformer_port import DataTransformerPort
+from ...core.ports.logger_port import LoggerPort
 
-from ..utils.data_validation_utils import io_data_validation
+from ...core.utils.data_validation_utils import io_data_validation
 
-from ..models.raw_data_model import RawDataModel
-from ..models.transformed_data_model import *
+from ...core.models.raw_data_model import RawDataModel
+from ...core.dtos.data_transform_dto import *
 
 class TransformDataUsecase:
   def __init__(
@@ -13,22 +13,10 @@ class TransformDataUsecase:
       logger: LoggerPort) -> None:
     self.data_transformer = data_transformer
     self.logger = logger
-    
-
-  @io_data_validation(schema_input=RawDataModel(), schema_output=DropFeatsModel())
-  def drop_unused_features(self, data: RawDataModel) -> DropFeatsModel:
-    try:
-      features_to_drop = ['status', 'priority', 'resolution', 'severity', 'component', 'product', 'report_type']
-      
-      result = self.data_transformer.drop_features(data, features_to_drop=features_to_drop)
-      return result
-    except Exception as error:
-      error_message = f'TransformDataUsecase.drop_features: {error}'
-      self.logger.log_error(error_message, error)
   
   
-  @io_data_validation(schema_input=DropFeatsModel(), schema_output=RemoveDuplicatesModel())
-  def remove_duplicates(self, data: DropFeatsModel, keep: str = 'first') -> RemoveDuplicatesModel:
+  @io_data_validation(schema_input=RawDataModel(), schema_output=RemoveDuplicatesDTO())
+  def remove_duplicates(self, data: RawDataModel, keep: str = 'first') -> RemoveDuplicatesDTO:
     try:
       result = self.data_transformer.remove_duplicates(data, keep=keep)
       return result
@@ -37,48 +25,8 @@ class TransformDataUsecase:
       self.logger.log_error(error_message, error)
 
 
-  @io_data_validation(schema_input=RemoveDuplicatesModel(), schema_output=AggregateTextModel())
-  def aggregate_text_features(self, data: RemoveDuplicatesModel) -> AggregateTextModel:
-    try:
-      result = self.data_transformer.aggregate_text_features(data)
-      return result
-    except Exception as error:
-      error_message = f'TransformDataUsecase.aggregate_text_features: {error}'
-      self.logger.log_error(error_message, error)
-
-
-  @io_data_validation(schema_input=AggregateTextModel(), schema_output=CleanSentModel())
-  def clean_sentences(self, data: AggregateTextModel) -> CleanSentModel:
-    try:
-      result = self.data_transformer.clean_sentences(data)
-      return result
-    except Exception as error:
-      error_message = f'TransformDataUsecase.clean_sentences: {error}'
-      self.logger.log_error(error_message, error)
-
-
-  @io_data_validation(schema_input=CleanSentModel(), schema_output=RemoveStopsModel())
-  def remove_stopwords(self, data: CleanSentModel) -> RemoveStopsModel:
-    try:
-      result = self.data_transformer.remove_stopwords(data)
-      return result
-    except Exception as error:
-      error_message = f'TransformDataUsecase.remove_stopwords: {error}'
-      self.logger.log_error(error_message, error)
-  
-  
-  @io_data_validation(schema_input=RemoveStopsModel(), schema_output=SentEmbeddingModel())
-  def sentence_embedding(self, data: RemoveStopsModel) -> SentEmbeddingModel:
-    try:
-      result = self.data_transformer.sent_embedding(data)
-      return result
-    except Exception as error:
-      error_message = f'TransformDataUsecase.sentence_embedding: {error}'
-      self.logger.log_error(error_message, error)
-  
-  
-  @io_data_validation(schema_input=SentEmbeddingModel(), schema_output=GetDuplicatesToModel())
-  def get_duplicates_to(self, data: SentEmbeddingModel) -> GetDuplicatesToModel:
+  @io_data_validation(schema_input=RemoveDuplicatesDTO(), schema_output=GetDuplicatesToDTO())
+  def get_duplicates_to(self, data: RemoveDuplicatesDTO) -> GetDuplicatesToDTO:
     try:
       result = self.data_transformer.get_duplicates_to(data)
       return result

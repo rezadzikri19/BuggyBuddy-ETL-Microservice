@@ -1,9 +1,10 @@
-from ..ports.data_extractor_port import DataExtractorPort
-from ..ports.logger_port import LoggerPort
+from ...core.ports.data_extractor_port import DataExtractorPort
+from ...core.ports.logger_port import LoggerPort
 
-from ..models.raw_data_model import RawDataModel, FetchRawData
+from ...core.models.raw_data_model import RawDataModel
+from ...core.dtos.data_extract_dto import FetchRawDataDTO
 
-from ..utils.data_validation_utils import io_data_validation
+from ...core.utils.data_validation_utils import io_data_validation
 
 class ExtractDataRawUsecase():
   def __init__(
@@ -14,8 +15,8 @@ class ExtractDataRawUsecase():
     self.logger = logger
   
   
-  @io_data_validation(schema_output=FetchRawData())
-  def fetch_data(self, data: None = None) -> FetchRawData:
+  @io_data_validation(schema_output=FetchRawDataDTO())
+  def fetch_data(self, data: None = None) -> FetchRawDataDTO:
     try:
       fields = {
         'include_fields': ['id', 'duplicates', 'summary', 'description', 'status', 'resolution', 'platform', 'product', 'priority', 'severity', 'component', 'type'],
@@ -28,8 +29,8 @@ class ExtractDataRawUsecase():
       self.logger.log_error(error_message, error)
   
   
-  @io_data_validation(schema_input=FetchRawData(), schema_output=RawDataModel())
-  def format_data(self, data: FetchRawData) -> RawDataModel:
+  @io_data_validation(schema_input=FetchRawDataDTO(), schema_output=RawDataModel())
+  def format_data(self, data: FetchRawDataDTO) -> RawDataModel:
     try:
       result = self.data_extractor.format_raw_data(data)
       return result
