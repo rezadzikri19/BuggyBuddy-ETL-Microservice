@@ -7,8 +7,8 @@ class TransformedDataModel(BaseMatrixModel):
     super().__init__(data=data, index=index)
 
     self.columns = {
-        'bug_id': int,
-        'report_type': str,
+        'id': int,
+        'type': str,
         'status': str,
         'product': str,
         'component': str,
