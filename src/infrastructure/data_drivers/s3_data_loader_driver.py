@@ -1,5 +1,10 @@
 import os
 from datetime import datetime
+from io import BytesIO
+
+import boto3
+import pyarrow as pa
+import pyarrow.parquet as pq
 
 from ...core.ports.data_loader_port import DataLoaderPort
 from ...core.models.raw_data_model import RawDataModel
@@ -7,12 +12,6 @@ from ...core.models.transformed_data_model import TransformedDataModel
 from ...core.ports.logger_port import LoggerPort
 
 from ...infrastructure.utils.data_utils import dataframe_wrapper
-
-import boto3
-import pyarrow as pa
-import pyarrow.parquet as pq
-
-from io import BytesIO
 
 class S3DataLoaderDriver(DataLoaderPort):
   def __init__(
@@ -35,7 +34,7 @@ class S3DataLoaderDriver(DataLoaderPort):
   def dump_raw_data(self, data: RawDataModel) -> None:
     try:       
       # file_name = f'/raw_data/{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}_raw_data.parquet'
-      file_name = '/raw_data/raw_data.parquet'
+      file_name = '/ETL/raw_data/raw_data.parquet'
       buffer = BytesIO()
       
       arrow_table = pa.Table.from_pandas(data)
@@ -50,7 +49,7 @@ class S3DataLoaderDriver(DataLoaderPort):
   def dump_processed_data(self, data: TransformedDataModel) -> None:
     try:
       # file_name = f'{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}_processed_data.parquet'
-      file_name = '/processed_data/processed_data.parquet'
+      file_name = '/ETL/processed_data/processed_data.parquet'
       buffer = BytesIO()
       
       arrow_table = pa.Table.from_pandas(data)
