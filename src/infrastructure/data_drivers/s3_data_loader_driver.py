@@ -34,28 +34,30 @@ class S3DataLoaderDriver(DataLoaderPort):
   def dump_raw_data(self, data: RawDataModel) -> None:
     try:       
       # file_name = f'/raw_data/{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}_raw_data.parquet'
-      file_name = '/ETL/raw_data/raw_data.parquet'
+      file_name = 'ETL/raw_data/raw_data.parquet'
       buffer = BytesIO()
       
       arrow_table = pa.Table.from_pandas(data)
       pq.write_table(arrow_table, buffer)
       
+      buffer.seek(0)
       self.s3_client.upload_fileobj(buffer, self.bucket_name, file_name)
     except Exception as error:
-      error_message = f'DataLoaderDriver.dump_raw_data: {error}'
+      error_message = f'S3DataLoaderDriver.dump_raw_data: {error}'
       self.logger.log_error(error_message, error)
 
   @dataframe_wrapper
   def dump_processed_data(self, data: TransformedDataModel) -> None:
     try:
       # file_name = f'{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}_processed_data.parquet'
-      file_name = '/ETL/processed_data/processed_data.parquet'
+      file_name = 'ETL/processed_data/processed_data.parquet'
       buffer = BytesIO()
       
       arrow_table = pa.Table.from_pandas(data)
       pq.write_table(arrow_table, buffer)
       
+      buffer.seek(0)
       self.s3_client.upload_fileobj(buffer, self.bucket_name, file_name)
     except Exception as error:
-      error_message = f'DataLoaderDriver.dump_processed_data: {error}'
+      error_message = f'S3DataLoaderDriver.dump_processed_data: {error}'
       self.logger.log_error(error_message, error)

@@ -23,7 +23,7 @@ class DataPipelineUsecase():
     result = self.data_extract_usecase.extract_data(data=None)
     self.data_dump_usecase.dump_raw_data(result)
     
-    self.logger.log_info('PIPELINE [EXTRACT] - DONE')
+    self.logger.log_info('ETL_PIPELINE [EXTRACT] - DONE')
     return result
   
   
