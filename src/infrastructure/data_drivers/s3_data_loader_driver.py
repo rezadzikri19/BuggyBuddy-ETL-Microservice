@@ -22,10 +22,10 @@ class S3DataLoaderDriver(DataLoaderPort):
       bucket_name: str,
       logger: LoggerPort) -> None:
     session = boto3.Session(
-      aws_access_key_id=aws_access_key_id,
-      aws_secret_access_key=aws_secret_access_key,
-      region_name=region_name
-    )
+        aws_access_key_id=aws_access_key_id,
+        aws_secret_access_key=aws_secret_access_key,
+        region_name=region_name
+      )
     self.s3_client = session.client('s3')
     self.bucket_name = bucket_name
     self.logger = logger
@@ -33,7 +33,7 @@ class S3DataLoaderDriver(DataLoaderPort):
   @dataframe_wrapper
   def dump_raw_data(self, data: RawDataModel) -> None:
     try:       
-      # file_name = f'/raw_data/{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}_raw_data.parquet'
+      # file_name = f'ETL/raw_data/{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}_raw_data.parquet'
       file_name = 'ETL/raw_data/raw_data.parquet'
       buffer = BytesIO()
       
@@ -49,7 +49,7 @@ class S3DataLoaderDriver(DataLoaderPort):
   @dataframe_wrapper
   def dump_processed_data(self, data: TransformedDataModel) -> None:
     try:
-      # file_name = f'{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}_processed_data.parquet'
+      # file_name = f'ETL/processed_data/{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}_processed_data.parquet'
       file_name = 'ETL/processed_data/processed_data.parquet'
       buffer = BytesIO()
       
