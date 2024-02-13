@@ -8,5 +8,6 @@
 **/caches
 **/venv
 **/docker
+**/.vscode
 
 **/__pycache__

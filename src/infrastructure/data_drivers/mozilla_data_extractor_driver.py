@@ -6,12 +6,12 @@ from ...core.models.raw_data_model import RawDataModel
 from ...core.ports.logger_port import LoggerPort
 from ...core.dtos.data_extract_dto import FetchRawDataDTO
 
-from ...infrastructure.utils.data_utils import dataframe_wrapper
+from ..utils.data_utils import dataframe_wrapper
 
 import pandas as pd
 import requests
 
-class DataExtractorDriver(DataExtractorPort):
+class MozillaDataExtractorDriver(DataExtractorPort):
   def __init__(self, logger: LoggerPort) -> None:
     self.logger = logger
   

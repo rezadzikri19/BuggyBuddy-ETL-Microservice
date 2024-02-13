@@ -8,7 +8,7 @@ from ...core.ports.logger_port import LoggerPort
 
 from ...infrastructure.utils.data_utils import dataframe_wrapper
 
-class DataLoaderDriver(DataLoaderPort):
+class LocalDataLoaderDriver(DataLoaderPort):
   def __init__(self, logger: LoggerPort) -> None:
     self.logger = logger
   

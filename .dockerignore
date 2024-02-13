@@ -12,5 +12,6 @@
 **/caches
 **/build
 **/docker
+**/.vscode
 
 README.md

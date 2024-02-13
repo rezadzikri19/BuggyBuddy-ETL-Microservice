@@ -5,9 +5,9 @@ from ...core.models.transformed_data_model import *
 from ...core.models.raw_data_model import RawDataModel
 from ...core.dtos.data_transform_dto import *
 
-from ...infrastructure.utils.data_utils import dataframe_wrapper
+from ..utils.data_utils import dataframe_wrapper
 
-class DataTransformerDriver(DataTransformerPort):  
+class PandasDataTransformerDriver(DataTransformerPort):  
   def __init__(self, logger: LoggerPort) -> None:
     self.logger = logger
 
