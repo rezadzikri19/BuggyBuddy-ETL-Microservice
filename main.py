@@ -13,6 +13,7 @@ from src.infrastructure.data_drivers.local_data_loader_driver import LocalDataLo
 from src.infrastructure.data_drivers.s3_data_loader_driver import S3DataLoaderDriver
 
 from src.infrastructure.loggers.logger_driver import LoggerDriver
+from src.infrastructure.message.rabbitmq_message_broker_driver import RabbitMQMessageBrokerDriver
 
 load_dotenv()
 
@@ -21,11 +22,15 @@ AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 REGION_NAME = os.getenv('REGION_NAME')
 BUCKET_NAME = os.getenv('BUCKET_NAME')
 
-def main():
-  logger_driver = LoggerDriver()
-  
+RABBITMQ_HOST = os.getenv('RABBITMQ_HOST')
+
+logger_driver = LoggerDriver()
+message_broker_driver = RabbitMQMessageBrokerDriver(host=RABBITMQ_HOST)
+
+def main():  
   data_extractor_driver = MozillaDataExtractorDriver(logger_driver)
   data_transformer_driver = PandasDataTransformerDriver(logger_driver)
+  # data_loader_driver = LocalDataLoaderDriver(logger_driver)
   data_loader_driver = S3DataLoaderDriver(
       aws_access_key_id=AWS_ACCESS_KEY_ID,
       aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
@@ -33,12 +38,16 @@ def main():
       bucket_name=BUCKET_NAME,
       logger=logger_driver
     )
-  # data_loader_driver = LocalDataLoaderDriver(logger_driver)
   
   extract_data_service = ExtractDataRawUsecase(data_extractor_driver, logger_driver)
   transform_data_service = TransformDataUsecase(data_transformer_driver, logger_driver)
   dump_data_service = DumpDataUsecase(data_loader_driver, logger_driver)
-  data_pipeline_usecase = DataPipelineUsecase(extract_data_service, transform_data_service, dump_data_service, logger_driver)
+  data_pipeline_usecase = DataPipelineUsecase(
+    data_extract_usecase=extract_data_service,
+    data_transform_usecase=transform_data_service,
+    data_dump_usecase=dump_data_service,
+    message_broker=message_broker_driver,
+    logger=logger_driver)
   
   data_pipeline_usecase.run_pipeline()
 

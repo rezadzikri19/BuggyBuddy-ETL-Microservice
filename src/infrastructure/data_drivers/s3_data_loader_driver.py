@@ -33,8 +33,8 @@ class S3DataLoaderDriver(DataLoaderPort):
   @dataframe_wrapper
   def dump_raw_data(self, data: RawDataModel) -> None:
     try:       
-      # file_name = f'ETL/raw_data/{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}_raw_data.parquet'
-      file_name = 'ETL/raw_data/raw_data.parquet'
+      # file_name = f'ETL/data/raw/{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}_raw_data.parquet'
+      file_name = 'ETL/data/raw/raw_data.parquet'
       buffer = BytesIO()
       
       arrow_table = pa.Table.from_pandas(data)
@@ -49,8 +49,8 @@ class S3DataLoaderDriver(DataLoaderPort):
   @dataframe_wrapper
   def dump_processed_data(self, data: TransformedDataModel) -> None:
     try:
-      # file_name = f'ETL/processed_data/{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}_processed_data.parquet'
-      file_name = 'ETL/processed_data/processed_data.parquet'
+      # file_name = f'ETL/data/processed/{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}_processed_data.parquet'
+      file_name = 'ETL/data/processed/processed_data.parquet'
       buffer = BytesIO()
       
       arrow_table = pa.Table.from_pandas(data)
