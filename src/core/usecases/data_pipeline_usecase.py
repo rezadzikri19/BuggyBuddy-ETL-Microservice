@@ -30,8 +30,8 @@ class DataPipelineUsecase():
       self.message_broker.publish_message(
         exchange='etl_service',
         route='extract_pipeline',
-        data={'status': 'done', 'message': 'ETL_PIPELINE [EXTRACT] - DONE'})
-      self.logger.log_info('ETL_PIPELINE [EXTRACT] - DONE')
+        data={'status': 'SUCCESS', 'message': 'ETL_PIPELINE [EXTRACT] - SUCCESS'})
+      self.logger.log_info('ETL_PIPELINE [EXTRACT] - SUCCESS')
       
       return result
     except Exception as error:
@@ -49,11 +49,11 @@ class DataPipelineUsecase():
       result = self.data_transform_usecase.transform_data(data)
       self.data_dump_usecase.dump_processed_data(result)
       
-      self.logger.log_info('ETL_PIPELINE [TRANSFORM] - DONE')
+      self.logger.log_info('ETL_PIPELINE [TRANSFORM] - SUCCESS')
       self.message_broker.publish_message(
         exchange='etl_service',
         route='transform_pipeline',
-        data={'status': 'done', 'message': 'ETL_PIPELINE [TRANSFORM] - DONE'})
+        data={'status': 'SUCCESS', 'message': 'ETL_PIPELINE [TRANSFORM] - SUCCESS'})
       
       return result
     except Exception as error:
@@ -74,8 +74,8 @@ class DataPipelineUsecase():
       self.message_broker.publish_message(
         exchange='etl_service',
         route='load_pipeline',
-        data={'status': 'done', 'message': 'ETL_PIPELINE [LOAD] - DONE'})
-      self.logger.log_info('ETL_PIPELINE [LOAD] - DONE')
+        data={'status': 'SUCCESS', 'message': 'ETL_PIPELINE [LOAD] - SUCCESS'})
+      self.logger.log_info('ETL_PIPELINE [LOAD] - SUCCESS')
     except Exception as error:
       error_message = f'DataPipelineUsecase.load_data_pipeline: {error}'
       
@@ -96,8 +96,8 @@ class DataPipelineUsecase():
       self.message_broker.publish_message(
         exchange='etl_service',
         route='all_pipeline',
-        data={'status': 'done', 'message': 'ETL_PIPELINE [ALL] - DONE'})
-      self.logger.log_info('ETL_PIPELINE [ALL] - DONE')
+        data={'status': 'SUCCESS', 'message': 'ETL_PIPELINE [ALL] - SUCCESS'})
+      self.logger.log_info('ETL_PIPELINE [ALL] - SUCCESS')
     except Exception as error:
       error_message = f'DataPipelineUsecase.run_pipeline: {error}'
       
