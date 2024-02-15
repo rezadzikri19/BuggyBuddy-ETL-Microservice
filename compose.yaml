@@ -1,7 +1,15 @@
 services:
+  rabbitmq:
+      image: rabbitmq:latest
+      ports:
+        - "5672:5672"
+        - "15672:15672"
+
   app:
     container_name: etl-microservice
     build: .
     volumes:
       - ./docker/volumes/logs:/app/logs
       - ./docker/volumes/artifacts:/app/artifacts
+    depends_on:
+      - rabbitmq
