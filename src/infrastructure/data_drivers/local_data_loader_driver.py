@@ -9,13 +9,18 @@ from ...core.ports.logger_port import LoggerPort
 from ...infrastructure.utils.data_utils import dataframe_wrapper
 
 class LocalDataLoaderDriver(DataLoaderPort):
-  def __init__(self, logger: LoggerPort) -> None:
+  def __init__(
+      self,
+      data_dir_path: str,
+      logger: LoggerPort) -> None:
+    self.data_dir_path = data_dir_path
     self.logger = logger
+  
   
   @dataframe_wrapper
   def dump_raw_data(self, data: RawDataModel) -> None:
     try:
-      data_dir = os.path.join(os.getcwd(), 'artifacts', 'raw_data')
+      data_dir = os.path.join(self.data_dir_path, 'data', 'raw')
       os.makedirs(data_dir, exist_ok=True)
         
       # file_name = f'{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}_raw_data.parquet'
@@ -27,10 +32,11 @@ class LocalDataLoaderDriver(DataLoaderPort):
       error_message = f'DataLoaderDriver.dump_raw_data: {error}'
       self.logger.log_error(error_message, error)
 
+
   @dataframe_wrapper
   def dump_processed_data(self, data: TransformedDataModel) -> None:
     try:
-      data_dir = os.path.join(os.getcwd(), 'artifacts', 'processed_data')
+      data_dir = os.path.join(self.data_dir_path, 'data', 'processed')
       os.makedirs(data_dir, exist_ok=True)
         
       # file_name = f'{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}_processed_data.parquet'

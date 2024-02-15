@@ -17,6 +17,8 @@ from src.infrastructure.message.rabbitmq_message_broker_driver import RabbitMQMe
 
 load_dotenv()
 
+LOCAL_DATA_DIR_PATH = os.getenv('LOCAL_DATA_DIR_PATH')
+
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 REGION_NAME = os.getenv('REGION_NAME')
@@ -37,7 +39,9 @@ message_broker_driver = RabbitMQMessageBrokerDriver(
 def main():  
   data_extractor_driver = MozillaDataExtractorDriver(logger_driver)
   data_transformer_driver = PandasDataTransformerDriver(logger_driver)
-  # data_loader_driver = LocalDataLoaderDriver(logger_driver)
+  # data_loader_driver = LocalDataLoaderDriver(
+  #   data_dir_path=lOCAL_DATA_DIR_PATH,
+  #   logger=logger_driver)
   data_loader_driver = S3DataLoaderDriver(
       aws_access_key_id=AWS_ACCESS_KEY_ID,
       aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
