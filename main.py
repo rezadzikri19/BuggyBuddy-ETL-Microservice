@@ -43,8 +43,7 @@ def main():
       aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
       region_name=REGION_NAME,
       bucket_name=BUCKET_NAME,
-      logger=logger_driver
-    )
+      logger=logger_driver)
   
   extract_data_service = ExtractDataRawUsecase(data_extractor_driver, logger_driver)
   transform_data_service = TransformDataUsecase(data_transformer_driver, logger_driver)
