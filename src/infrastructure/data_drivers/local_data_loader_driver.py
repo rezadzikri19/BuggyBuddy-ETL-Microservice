@@ -15,11 +15,8 @@ class LocalDataLoaderDriver(DataLoaderPort):
   @dataframe_wrapper
   def dump_raw_data(self, data: RawDataModel) -> None:
     try:
-      curr_dir = os.getcwd()
-      data_dir = os.path.join(curr_dir, 'artifacts', 'raw_data')
-      
-      if not os.path.exists(data_dir):
-        os.makedirs(data_dir)
+      data_dir = os.path.join(os.getcwd(), 'artifacts', 'raw_data')
+      os.makedirs(data_dir, exist_ok=True)
         
       # file_name = f'{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}_raw_data.parquet'
       file_name = 'raw_data.parquet'
@@ -33,11 +30,8 @@ class LocalDataLoaderDriver(DataLoaderPort):
   @dataframe_wrapper
   def dump_processed_data(self, data: TransformedDataModel) -> None:
     try:
-      curr_dir = os.getcwd()
-      data_dir = os.path.join(curr_dir, 'artifacts', 'processed_data')
-      
-      if not os.path.exists(data_dir):
-        os.makedirs(data_dir)
+      data_dir = os.path.join(os.getcwd(), 'artifacts', 'processed_data')
+      os.makedirs(data_dir, exist_ok=True)
         
       # file_name = f'{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}_processed_data.parquet'
       file_name = 'processed_data.parquet'
