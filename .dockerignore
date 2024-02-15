@@ -1,13 +1,16 @@
-.env
-
-**/build
+**/__pycache__
+**/venv
+**/.dockerignore
+**/.gitignore
+**/docker-compose*
+**/compose*
+**/Dockerfile*
 **/*.egg-info
 **/notebooks
 **/artifacts
 **/logs
 **/caches
-**/venv
+**/build
 **/docker
-**/.vscode
 
-**/__pycache__
+README.md

@@ -1,0 +1,7 @@
+services:
+  app:
+    container_name: etl-microservice
+    build: .
+    volumes:
+      - ./docker/volumes/logs:/app/logs
+      - ./docker/volumes/artifacts:/app/artifacts
