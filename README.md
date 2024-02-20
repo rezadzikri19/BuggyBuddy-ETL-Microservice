@@ -1,8 +1,8 @@
-# **ETL Pipeline Microservice [BuggyBuddy🐞]**
+# **📦 BuggyBuddy ETL [Microservice]**
 
 ## Overview
 
-This microservice is an integral component of the [BuggyBuddy](http://example.com) project, serving as an **ETL (Extract, Transform, and Load)** pipeline application. Utilizing a scalable and maintainable clean architecture, it ensures robustness and adaptability to accommodate diverse tech stack requirements.
+This microservice is an integral component of the [BuggyBuddy](http://example.com) project, serving as an **ETL (Extract, Transform, and Load)** pipeline application.
 
 ## Features
 
@@ -35,21 +35,19 @@ flowchart LR;
 
 
 ```
-my_project/
-│
+app/
 ├── src/
-│   └── core/                     <- Core functionality of the microservice.
-│       ├── dtos/                 <- Data Transfer Objects (DTOs) for transferring data between modules.
+│   └── core/
+│       ├── dtos/                 <- DTOs for transferring data between pipelines/modules.
 │       ├── models/               <- Domain models representing data objects.
-│       ├── ports/                <- Ports defining contracts for external services/drivers.
-│       ├── usecases/             <- Use cases implementing business logic and orchestrating interactions.
+│       ├── ports/                <- Ports defining contracts for drivers.
+│       ├── usecases/             <- Use cases implementing business logic.
 │       └── utils/                <- Utility functions and helpers.
-│
-└── infrastructure/               <- Infrastructure-related code and implementations that adhere to the port contract.
-    ├── data_drivers/             <- Data extractor, data transformer, data loader drivers (follow contract)
-    ├── loggers/                  <- Logging utilities for capturing application logs.
-    ├── message/                  <- Message brokers and communication interfaces (RabbitMQ driver).
-    └── utils/                    <- Additional utilities and helpers specific to infrastructure concerns.
+└── infrastructure/
+    ├── data_drivers/             <- Data related drivers (data extractor, preprocessor, loader)
+    ├── loggers/                  <- Logging utilities drivers.
+    ├── message/                  <- Message broker drivers (RabbitMQ).
+    └── utils/                    <- Additional utilities and helpers for infrastructure-related tasks.
 ```
 
 
@@ -57,7 +55,7 @@ my_project/
 
 - **Programming Language**: Python
 - **ETL Framework**: pandas, numpy, sklearn
-- **Data Wharehouse**: Local Storage, AWS S3 Bucket
+- **Data Wharehouse**: AWS S3 Bucket
 - **Messaging**: RabbitMQ
 
 ## Installation
@@ -85,7 +83,7 @@ cp .env.example .env
 
 ## Usage
 
-This microservice can be used using *direct execution* or *scheduled cron job (crontab)*. By using cron job, you are able to set based on prefered schedule.
+BuggyBuddy ETL can be used using *direct execution* or *scheduled cron job (crontab)*. By using cron job, you are able to set based on prefered schedule.
 
 **_Direct execution_**:
 
@@ -105,7 +103,7 @@ This microservice can be used using *direct execution* or *scheduled cron job (c
 
 The following types of events/messages are published by the BuggyBuddy ETL Pipeline Microservice:
 
-1. **ETL_Pipeline_Extract**: Published when a new bug report is already extracted from Bugzilla. Below are *exchange*, *route*, and *data* of the message:
+1. **Pipeline_Extract**: Published when a new bug report is already extracted from Bugzilla. Below are *exchange*, *route*, and *data* of the message:
 
 ```bash
     exchange: 'etl_service',
@@ -116,7 +114,7 @@ The following types of events/messages are published by the BuggyBuddy ETL Pipel
     }
 ```
 
-2. **ETL_Pipeline_Transform**: Published after the bug report data has been transformed and prepared for loading the data. Below are *exchange*, *route*, and *data* of the message:
+2. **Pipeline_Transform**: Published after the bug report data has been transformed and prepared for loading the data. Below are *exchange*, *route*, and *data* of the message:
 
 ```bash
     exchange: 'etl_service',
@@ -127,7 +125,7 @@ The following types of events/messages are published by the BuggyBuddy ETL Pipel
     }
 ```
 
-3. **ETL_Pipeline_Load**: Published when the processed bug report data is successfully loaded into the AWS S3 data warehouse. Below are *exchange*, *route*, and *data* of the message:
+3. **Pipeline_Load**: Published when the processed bug report data is successfully loaded into the AWS S3 data warehouse. Below are *exchange*, *route*, and *data* of the message:
 
 ```bash
     exchange: 'etl_service',
@@ -138,7 +136,7 @@ The following types of events/messages are published by the BuggyBuddy ETL Pipel
     }
 ```
 
-4. **ETL_Pipeline_All**: Published when all of the has been successfully executed. Below are *exchange*, *route*, and *data* of the message:
+4. **Pipeline_All**: Published when all of the has been successfully executed. Below are *exchange*, *route*, and *data* of the message:
 
 ```bash
     exchange: 'etl_service',
