@@ -2,7 +2,7 @@
 
 ## Overview
 
-This microservice is an integral component of the [BuggyBuddy](http://example.com) project, serving as an **ETL (Extract, Transform, and Load)** pipeline application.
+This microservice is an integral component of the [BuggyBuddy](https://github.com/rezadzikri19/BuggyBuddy) project, serving as an **ETL (Extract, Transform, and Load)** pipeline application.
 
 ## Features
 
